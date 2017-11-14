@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">CardGuesser</string>
+    <string name="Title">No.FLame Concentration Game</string>
+    <string name="play">Play Game</string>
+    <string name="dropDown_prompt">cards</string>
+
+    <string-array name="num_cards">
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+    </string-array>
+
+
+</resources>
