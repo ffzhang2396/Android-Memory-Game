@@ -1,7 +1,10 @@
 package com.cs245.cardguesser;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -19,15 +22,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initSpinner();
+        addListenerButton();
 
 
     }
 
-    public void initSpinner() {
-        choices = findViewById(R.id.spinner);
 
-        
+    public void addListenerButton() {
+        choices = findViewById(R.id.spinner);
+        playButton = findViewById(R.id.button);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), Game.class);
+                intent.putExtra("cards", choices.getSelectedItemId());
+                startActivity(intent);
+            }
+        });
+
+
+
 
     }
 
