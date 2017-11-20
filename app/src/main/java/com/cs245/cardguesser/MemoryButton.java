@@ -17,8 +17,6 @@ public class MemoryButton extends Button{
 
     private int row;
     private int col;
-    private int width;
-    private int height;
     private String cardID;
     private boolean isFlipped;
     private boolean isMatched;
@@ -37,22 +35,13 @@ public class MemoryButton extends Button{
 
         setBackground(back);
 
-        GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(row), GridLayout.spec(col));
-        GridLayout layout = findViewById(R.id.gridLayout4x1);
+        GridLayout.LayoutParams tempParems = new GridLayout.LayoutParams(GridLayout.spec(row), GridLayout.spec(col));
 
         // does math to scale buttons by dpi of device instead of pure pixel sizes
-        //tempParams.width = (int) getResources().getDisplayMetrics().density * 122;
-        //tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
+        tempParems.width = (int) getResources().getDisplayMetrics().density * 122;
+        tempParems.height = (int) getResources().getDisplayMetrics().density * 200;
 
-        //width = layout.getMeasuredWidth();
-        //height = layout.getMeasuredHeight();
-
-        tempParams.width  = width / 4 - 10;
-        tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
-
-        tempParams.setMargins(5, 5, 5, 5);
-
-        setLayoutParams(tempParams);
+        setLayoutParams(tempParems);
         
     }
 
