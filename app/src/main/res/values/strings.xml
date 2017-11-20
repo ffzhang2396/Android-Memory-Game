@@ -3,6 +3,7 @@
     <string name="Title">No.FLame Concentration Game</string>
     <string name="play">Play Game</string>
     <string name="dropDown_prompt">cards</string>
+    <string name="TryAgainButton">Try Again</string>
 
     <string-array name="num_cards">
         <item>4</item>
