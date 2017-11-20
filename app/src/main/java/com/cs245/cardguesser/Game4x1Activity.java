@@ -16,14 +16,14 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
     private int numberOfElements;
     private int numberOfRows;
 
-    private MemoryButton[] buttons;
+    private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
 
-    private String[] ids;
+    private String[] ids; // need to think of better system to deal with varying sizes of boards
 
     private MemoryButton selected1;
     private MemoryButton selected2;
 
-    private boolean isBusy = false;
+    private boolean isBusy = false; // used to wait 500 secs for cards to flip
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
         GridLayout gridLayout = findViewById(R.id.gridLayout4x1);
 
-        numberOfElements = 8;
-        numberOfRows = 2;
+        numberOfElements = 8; // hard coded number of elemnts in this version
+        numberOfRows = 2; // also hard coded number of rows
 
         buttons = new MemoryButton[numberOfElements];
 
@@ -41,6 +41,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
         Collections.shuffle(Arrays.asList(ids));
 
+        //adds each memorybutton into the grid. uses row * '# of cols" + col formula to convert ids array
+        // to a 2d array representation
         for(int i = 0; i < numberOfRows; i++) {
             for(int j = 0; j < 4; j++) {
                 MemoryButton btn = new MemoryButton(this, i, j, ids[i * 4 + j]);
@@ -52,20 +54,28 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * button listener that checks performs different actions depending on state of game
+     * @param view MemoryButton object
+     */
     @Override
     public void onClick(View view) {
+        // if 500 ms wait time is still happening do nothing. ie if user tries to select 3 cards
         if(isBusy)
             return;
+
         MemoryButton button = (MemoryButton) view;
 
-        if(button.isMatched())
-            return;
+        //select first card
         if(selected1 == null) {
             selected1 = button;
             selected1.flip();
+            return;
         }
+        //if user tries to select same card twice
         if(selected1.getId() == button.getId())
             return;
+        //if user selects two matching cards, disable the buttons
         if(selected1.getCardID().equals(button.getCardID())){
             button.flip();
 
@@ -76,17 +86,15 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
             button.setEnabled(false);
 
             selected1 = null;
-
-            return;
         }
-
+        // default case if user selects two nonmatching cards
         else {
             selected2 = button;
             selected2.flip();
             isBusy = true;
 
             final Handler handler = new Handler();
-
+            //used to delay game 500 ms as wait time for card to 'flip'
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

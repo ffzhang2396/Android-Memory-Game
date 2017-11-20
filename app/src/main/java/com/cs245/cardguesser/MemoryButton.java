@@ -30,29 +30,31 @@ public class MemoryButton extends Button{
         this.col = col;
         this.cardID = cardID;
 
+        //sets back of card to starwars.png
         back = AppCompatDrawableManager.get().getDrawable(context, R.drawable.starwars);
 
         setBackground(back);
 
         GridLayout.LayoutParams tempParems = new GridLayout.LayoutParams(GridLayout.spec(row), GridLayout.spec(col));
 
+        // does math to scale buttons by dpi of device instead of pure pixel sizes
         tempParems.width = (int) getResources().getDisplayMetrics().density * 122;
         tempParems.height = (int) getResources().getDisplayMetrics().density * 200;
-
 
         setLayoutParams(tempParems);
         
     }
 
     public void flip(){
-        if(isMatched)
-            return;
+
+        //isFlipped = true show starwars image
         if(isFlipped)
         {
             setBackground(back);
             setText("");
             isFlipped = false;
         }
+        //isFlipped = false, show cardID
         else{
             setBackgroundColor(Color.WHITE);
             setText(cardID);
