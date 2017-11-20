@@ -52,6 +52,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
                 gridLayout.addView(btn);
             }
         }
+
+
     }
 
     /**
