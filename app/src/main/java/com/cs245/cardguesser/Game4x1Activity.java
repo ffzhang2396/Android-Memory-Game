@@ -23,7 +23,7 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
     private MemoryButton selected1;
     private MemoryButton selected2;
 
-    private boolean isBusy = false; // used to wait 500 secs for cards to flip
+    private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
             button.setEnabled(false);
 
             selected1 = null;
+
+            return;
         }
         // default case if user selects two nonmatching cards
         else {
