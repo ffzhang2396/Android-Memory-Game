@@ -6,15 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="267dp"
+    android:layout_height="match_parent">
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <GridLayout
         android:id="@+id/gridLayout4x1"
-        android:layout_width="267dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:columnCount="4"
-        android:layout_gravity="fill_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonPanel"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +27,7 @@
         tools:context="com.cs245.cardguesser.Game4x1Activity">
 
     </GridLayout>
+</ScrollView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/buttonPanel"

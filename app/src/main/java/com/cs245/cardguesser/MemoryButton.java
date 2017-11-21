@@ -41,14 +41,14 @@ public class MemoryButton extends Button{
         GridLayout layout = findViewById(R.id.gridLayout4x1);
 
         // does math to scale buttons by dpi of device instead of pure pixel sizes
-        //tempParams.width = (int) getResources().getDisplayMetrics().density * 122;
+        tempParams.width = (int) getResources().getDisplayMetrics().density * 80;
         //tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
 
         //width = layout.getMeasuredWidth();
         //height = layout.getMeasuredHeight();
 
-        tempParams.width  = width / 4 - 10;
-        tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
+        //tempParams.width  = width / 4 - 10;
+        tempParams.height = (int) getResources().getDisplayMetrics().density * 120;
 
         tempParams.setMargins(5, 5, 5, 5);
 
