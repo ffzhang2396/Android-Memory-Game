@@ -18,7 +18,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
     private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
 
-    private String[] ids; // need to think of better system to deal with varying sizes of boards
+    private String[] cardType;
+    private String[] usedCards;
 
     private MemoryButton selected1;
     private MemoryButton selected2;
@@ -32,26 +33,43 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
         GridLayout gridLayout = findViewById(R.id.gridLayout4x1);
 
-        numberOfElements = 8; // hard coded number of elemnts in this version
-        numberOfRows = 2; // also hard coded number of rows
+        this.numberOfElements = getIntent().getIntExtra("numberOfCards", 4);
+        numberOfRows = numberOfElements/ 4 + 1;
 
         buttons = new MemoryButton[numberOfElements];
 
-        ids = new String[]{"Dog", "Cat", "Dog", "Cat", "Horse", "Rabbit", "Horse", "Rabbit"};
+        initCards();
+        initUsedCards();
 
-        Collections.shuffle(Arrays.asList(ids));
-
-        //adds each memorybutton into the grid. uses row * '# of cols" + col formula to convert ids array
+        //adds each memorybutton into the grid. uses row * (# of cols) + col formula to convert ids array
         // to a 2d array representation
         for(int i = 0; i < numberOfRows; i++) {
             for(int j = 0; j < 4; j++) {
-                MemoryButton btn = new MemoryButton(this, i, j, ids[i * 4 + j]);
-                btn.setId(View.generateViewId());
-                btn.setOnClickListener(this);
-                buttons[j] = btn;
-                gridLayout.addView(btn);
+                if(i * 4 + j < numberOfElements){
+                    MemoryButton btn = new MemoryButton(this, i, j, usedCards[i * 4 + j]);
+                    btn.setId(View.generateViewId());
+                    btn.setOnClickListener(this);
+                    buttons[j] = btn;
+                    gridLayout.addView(btn);
+                }
             }
         }
+    }
+
+    private void initUsedCards() {
+        usedCards = new String[numberOfElements];
+        for(int i = 0; i < numberOfElements; i++) {
+            usedCards[i] = cardType[i];
+        }
+
+        Collections.shuffle(Arrays.asList(usedCards));
+
+    }
+
+    private void initCards() {
+        cardType = new String[]{"Varder", "Varder", "Luke", "Luke", "Leia", "Leia", "Han Solo",
+                "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
+                "Finn", "Finn", "Lando", "Lando"};
     }
 
     /**
@@ -110,4 +128,5 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
         }
     }
+
 }

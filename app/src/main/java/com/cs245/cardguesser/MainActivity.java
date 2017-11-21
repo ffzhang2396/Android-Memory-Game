@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), Game.class);
                 intent.putExtra("cards", choices.getSelectedItemId());
-
                 Intent intent2 = new Intent(MainActivity.this, Game4x1Activity.class);
+                intent2.putExtra("numberOfCards", Integer.parseInt(choices.getSelectedItem().toString()));
                 startActivity(intent2);
             }
         });
