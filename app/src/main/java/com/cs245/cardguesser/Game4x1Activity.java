@@ -54,6 +54,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
+
+
     }
 
     private void initUsedCards() {
