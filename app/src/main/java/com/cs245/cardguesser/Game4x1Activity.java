@@ -69,7 +69,7 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initCards() {
-        cardType = new String[]{"Varder", "Varder", "Luke", "Luke", "Leia", "Leia", "Han Solo",
+        cardType = new String[]{"Vader", "Vader", "Luke", "Luke", "Leia", "Leia", "Han Solo",
                 "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
                 "Finn", "Finn", "Lando", "Lando"};
     }
