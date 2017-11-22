@@ -6,19 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
-    android:layout_width="267dp"
-    android:layout_height="match_parent">
-
-
-    <GridLayout
-        android:id="@+id/gridLayout4x1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="267dp"
+        android:layout_height="match_parent"
+        android:numColumns="4"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        android:columnWidth="90dp"
+        android:stretchMode="columnWidth"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonPanel"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +22,7 @@
         app:layout_constraintVertical_bias="0.0"
         tools:context="com.cs245.cardguesser.Game4x1Activity">
 
-    </GridLayout>
-</ScrollView>
+    </GridView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/buttonPanel"
@@ -37,7 +32,7 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/gridLayout4x1"
+        app:layout_constraintLeft_toRightOf="@+id/gridView"
         app:layout_constraintTop_toTopOf="parent">
 
 

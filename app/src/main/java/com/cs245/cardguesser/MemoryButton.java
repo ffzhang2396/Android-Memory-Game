@@ -25,34 +25,15 @@ public class MemoryButton extends Button{
     private Drawable back;
 
     @SuppressLint("RestrictedApi")
-    public MemoryButton(Context context, int row, int col, String cardID) {
+    public MemoryButton(Context context, String cardID) {
         super(context);
 
-        this.row = row;
-        this.col = col;
         this.cardID = cardID;
 
         //sets back of card to starwars.png
         back = AppCompatDrawableManager.get().getDrawable(context, R.drawable.starwars);
 
         setBackground(back);
-
-        GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(row), GridLayout.spec(col));
-        GridLayout layout = findViewById(R.id.gridLayout4x1);
-
-        // does math to scale buttons by dpi of device instead of pure pixel sizes
-        tempParams.width = (int) getResources().getDisplayMetrics().density * 80;
-        //tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
-
-        //width = layout.getMeasuredWidth();
-        //height = layout.getMeasuredHeight();
-
-        //tempParams.width  = width / 4 - 10;
-        tempParams.height = (int) getResources().getDisplayMetrics().density * 120;
-
-        tempParams.setMargins(5, 5, 5, 5);
-
-        setLayoutParams(tempParams);
         
     }
 

@@ -6,7 +6,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,42 +28,58 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
     private MemoryButton selected2;
 
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game4x1);
 
-        GridLayout gridLayout = findViewById(R.id.gridLayout4x1);
-
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 4);
-        numberOfRows = numberOfElements/ 4 + 1;
+        numberOfRows = numberOfElements / 4 + 1;
 
         buttons = new MemoryButton[numberOfElements];
 
         initCards();
-        initUsedCards();
+
 
         //adds each memorybutton into the grid. uses row * (# of cols) + col formula to convert ids array
         // to a 2d array representation
-        for(int i = 0; i < numberOfRows; i++) {
-            for(int j = 0; j < 4; j++) {
-                if(i * 4 + j < numberOfElements){
-                    MemoryButton btn = new MemoryButton(this, i, j, usedCards[i * 4 + j]);
-                    btn.setId(View.generateViewId());
-                    btn.setOnClickListener(this);
-                    buttons[j] = btn;
-                    gridLayout.addView(btn);
-                }
-            }
-        }
+//        for(int i = 0; i < numberOfRows; i++) {
+//            for(int j = 0; j < 4; j++) {
+//                if(i * 4 + j < numberOfElements){
+//                    MemoryButton btn = new String(this, i, j, usedCards[i * 4 + j]);
+//                    btn.setId(View.generateViewId());
+//                    btn.setOnClickListener(this);
+//                    buttons[j] = btn;
+//                    gridLayout.addView(btn);
+//                }
+//            }
+//        }
 
 
     }
 
-    private void initUsedCards() {
+    private void initCards() {
+        populateCardType();
+        populateUsedCards();
+
+        GridView gridView = findViewById(R.id.gridView);
+        gridView.setAdapter(new ButtonAdapter(this, usedCards));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(Game4x1Activity.this, "" + i,
+                        Toast.LENGTH_SHORT).show();
+                MemoryButton button = (MemoryButton) view;
+                button.flip();
+            }
+        });
+    }
+
+    private void populateUsedCards() {
         usedCards = new String[numberOfElements];
-        for(int i = 0; i < numberOfElements; i++) {
+        for (int i = 0; i < numberOfElements; i++) {
             usedCards[i] = cardType[i];
         }
 
@@ -68,7 +87,7 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void initCards() {
+    private void populateCardType() {
         cardType = new String[]{"Vader", "Vader", "Luke", "Luke", "Leia", "Leia", "Han Solo",
                 "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
                 "Finn", "Finn", "Lando", "Lando"};
@@ -76,27 +95,28 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * button listener that checks performs different actions depending on state of game
+     *
      * @param view MemoryButton object
      */
     @Override
     public void onClick(View view) {
         // if 500 ms wait time is still happening do nothing. ie if user tries to select 3 cards
-        if(isBusy)
+        if (isBusy)
             return;
 
         MemoryButton button = (MemoryButton) view;
 
         //select first card
-        if(selected1 == null) {
+        if (selected1 == null) {
             selected1 = button;
             selected1.flip();
             return;
         }
         //if user tries to select same card twice
-        if(selected1.getId() == button.getId())
+        if (selected1.getId() == button.getId())
             return;
         //if user selects two matching cards, disable the buttons
-        if(selected1.getCardID().equals(button.getCardID())){
+        if (selected1.getCardID().equals(button.getCardID())) {
             button.flip();
 
             button.setMatched(true);
