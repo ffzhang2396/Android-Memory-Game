@@ -1,6 +1,8 @@
 package com.cs245.cardguesser;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,6 +35,7 @@ public class ButtonAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View getView(final int i, View view, final ViewGroup parent) {
         MemoryButton button;
@@ -50,6 +53,8 @@ public class ButtonAdapter extends BaseAdapter {
                 ((GridView) parent).performItemClick(view, i, 0);
             }
         });
+
+        button.setBack();
         return button;
     }
 }

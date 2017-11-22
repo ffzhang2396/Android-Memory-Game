@@ -32,8 +32,6 @@ public class MemoryButton extends Button{
 
         //sets back of card to starwars.png
         back = AppCompatDrawableManager.get().getDrawable(context, R.drawable.starwars);
-
-        setBackground(back);
         
     }
 
@@ -53,6 +51,16 @@ public class MemoryButton extends Button{
             isFlipped = true;
         }
 
+    }
+
+    public void setBack(){
+        if(!isFlipped) {
+            setBackground(back);
+        }
+        else {
+            setBackgroundColor(Color.WHITE);
+            setText(cardID);
+        }
     }
 
     public boolean isFlipped() {
