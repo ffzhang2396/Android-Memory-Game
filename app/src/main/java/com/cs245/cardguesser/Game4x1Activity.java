@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Game4x1Activity extends AppCompatActivity implements View.OnClickListener {
+public class Game4x1Activity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private int numberOfElements;
     private int numberOfRows;
@@ -35,28 +35,11 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game4x1);
 
-        this.numberOfElements = getIntent().getIntExtra("numberOfCards", 4);
-        numberOfRows = numberOfElements / 4 + 1;
+        this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
 
         buttons = new MemoryButton[numberOfElements];
 
         initCards();
-
-
-        //adds each memorybutton into the grid. uses row * (# of cols) + col formula to convert ids array
-        // to a 2d array representation
-//        for(int i = 0; i < numberOfRows; i++) {
-//            for(int j = 0; j < 4; j++) {
-//                if(i * 4 + j < numberOfElements){
-//                    MemoryButton btn = new String(this, i, j, usedCards[i * 4 + j]);
-//                    btn.setId(View.generateViewId());
-//                    btn.setOnClickListener(this);
-//                    buttons[j] = btn;
-//                    gridLayout.addView(btn);
-//                }
-//            }
-//        }
-
 
     }
 
@@ -66,15 +49,7 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
 
         GridView gridView = findViewById(R.id.gridView);
         gridView.setAdapter(new ButtonAdapter(this, usedCards));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(Game4x1Activity.this, "" + i,
-                        Toast.LENGTH_SHORT).show();
-                MemoryButton button = (MemoryButton) view;
-                button.flip();
-            }
-        });
+        gridView.setOnItemClickListener(this);
     }
 
     private void populateUsedCards() {
@@ -93,12 +68,16 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
                 "Finn", "Finn", "Lando", "Lando"};
     }
 
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        MemoryButton button = (MemoryButton) view;
+        button.flip();
+    }
+
     /**
      * button listener that checks performs different actions depending on state of game
      *
      * @param view MemoryButton object
      */
-    @Override
     public void onClick(View view) {
         // if 500 ms wait time is still happening do nothing. ie if user tries to select 3 cards
         if (isBusy)
@@ -151,4 +130,8 @@ public class Game4x1Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
