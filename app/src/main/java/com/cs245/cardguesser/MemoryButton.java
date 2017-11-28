@@ -62,7 +62,7 @@ public class MemoryButton extends Button{
         if(isFlipped)
         {
             setBackground(back);
-            setText("");
+            setText("        ");
             isFlipped = false;
         }
         //isFlipped = false, show cardID
