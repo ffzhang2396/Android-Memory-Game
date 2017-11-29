@@ -123,63 +123,6 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    /**
-     * button listener that checks performs different actions depending on state of game
-     *
-     * @param view MemoryButton object
-     */
-    public void onClick(View view) {
-        // if 500 ms wait time is still happening do nothing. ie if user tries to select 3 cards
-        if (isBusy)
-            return;
-
-        MemoryButton button = (MemoryButton) view;
-
-        //select first card
-        if (selected1 == null) {
-            selected1 = button;
-            selected1.flip();
-            return;
-        }
-        //if user tries to select same card twice
-        if (selected1.getId() == button.getId())
-            return;
-        //if user selects two matching cards, disable the buttons
-        if (selected1.getCardID().equals(button.getCardID())) {
-            button.flip();
-
-            button.setMatched(true);
-            selected1.setMatched(true);
-
-            selected1.setEnabled(false);
-            button.setEnabled(false);
-
-            selected1 = null;
-
-            return;
-        }
-        // default case if user selects two nonmatching cards
-        else {
-            selected2 = button;
-            selected2.flip();
-            isBusy = true;
-
-            final Handler handler = new Handler();
-            //used to delay game 500 ms as wait time for card to 'flip'
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    selected2.flip();
-                    selected1.flip();
-                    selected1 = null;
-                    selected2 = null;
-                    isBusy = false;
-                }
-            }, 500);
-
-        }
-    }
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
