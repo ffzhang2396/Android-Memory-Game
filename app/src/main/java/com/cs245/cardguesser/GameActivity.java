@@ -7,14 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Game4x1Activity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private int numberOfElements;
     private int numberOfRows;
@@ -33,7 +31,7 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game4x1);
+        setContentView(R.layout.activity_game);
 
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
 
