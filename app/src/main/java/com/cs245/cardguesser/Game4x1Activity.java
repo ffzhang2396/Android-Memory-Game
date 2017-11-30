@@ -73,9 +73,7 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
                 "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
                 "Finn", "Finn", "Lando", "Lando"};
         usedCards = new String[numberOfElements];
-        for (int i = 0; i < numberOfElements; i++) {
-            usedCards[i] = cardType[i];
-        }
+        System.arraycopy(cardType, 0, usedCards, 0, numberOfElements);
 
         Collections.shuffle(Arrays.asList(usedCards));
 
@@ -137,8 +135,4 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        state.putParcelableArray("memButtons", (Parcelable[]) buttons);
-    }
 }

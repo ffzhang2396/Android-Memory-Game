@@ -53,7 +53,7 @@ public class ButtonAdapter extends BaseAdapter {
         });
 
         mButton.setBack();
-        mButton.setEnabled();
+ //       mButton.setEnabled();
         return mButton;
     }
 
