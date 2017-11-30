@@ -8,7 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.widget.Button;
-import android.widget.GridLayout;
 
 /**
  * Created by Brandon on 11/19/2017.
@@ -27,11 +26,8 @@ public class MemoryButton extends Button{
         super(context);
 
         this.cardID = cardID;
-
-        //sets back of card to starwars.png
-        back = AppCompatDrawableManager.get().getDrawable(context, R.drawable.starwars);
-        
     }
+
 
 
     public void flip(){
@@ -39,7 +35,6 @@ public class MemoryButton extends Button{
         //isFlipped = true show starwars image
         if(isFlipped)
         {
-            setBackground(back);
             setBackgroundResource(R.drawable.starwars);
             setText("");
             isFlipped = false;
@@ -55,7 +50,7 @@ public class MemoryButton extends Button{
 
     public void setBack(){
         if(!isFlipped) {
-            setBackground(back);
+            setBackgroundResource(R.drawable.starwars);
         }
         else {
             setBackgroundColor(Color.WHITE);
