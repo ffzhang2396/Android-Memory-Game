@@ -35,26 +35,25 @@ public class ButtonAdapter extends BaseAdapter {
     }
 
     @SuppressLint("RestrictedApi")
-    @Override
     public View getView(final int i, View view, final ViewGroup parent) {
-        MemoryButton mButton = memoryButtons[i];
+        MemoryButton button;
         if (view == null) {
-            mButton.setLayoutParams(new GridView.LayoutParams(170,330));
-            mButton.setPadding(5, 5, 5, 5);
+            button = new MemoryButton(context, memoryButtons[i].getCardID());
+            button.setLayoutParams(new GridView.LayoutParams(170,330));
+            button.setPadding(5, 5, 5, 5);
         } else {
-            mButton = (MemoryButton) view;
+            button = (MemoryButton) view;
         }
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((GridView) parent).performItemClick(view, i, 0);
             }
         });
 
-        mButton.setBack();
- //       mButton.setEnabled();
-        return mButton;
+        button.setBack();
+        return button;
     }
 
     public void setMemoryButtons(MemoryButton[] memoryButtons) {
