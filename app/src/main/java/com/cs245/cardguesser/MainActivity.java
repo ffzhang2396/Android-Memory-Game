@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button playButton;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void addListenerButton() {
         choices = findViewById(R.id.spinner);
         playButton = findViewById(R.id.button);
@@ -31,11 +34,9 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), GameActivity.class);
-                intent.putExtra("cards", choices.getSelectedItemId());
-                Intent intent2 = new Intent(MainActivity.this, GameActivity.class);
-                intent2.putExtra("numberOfCards", Integer.parseInt(choices.getSelectedItem().toString()));
-                startActivity(intent2);
+                Intent gameIntent = new Intent(MainActivity.this, GameActivity.class);
+                gameIntent.putExtra("numberOfCards", Integer.parseInt(choices.getSelectedItem().toString()));
+                startActivity(gameIntent);
             }
         });
 
@@ -44,9 +45,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onPause() {
+        super.onPause();
+
+        Intent pause = new Intent(MainActivity.this, MusicService.class);
+        pause.putExtra("song", "pause");
+        startService(pause);
+
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        Intent resume = new Intent(MainActivity.this, MusicService.class);
+        resume.putExtra("song", "resume");
+        startService(resume);
+
+    }
+
+
+
+
+
+
+
     public void addMusic(){
         //music plays throughout activities
-        startService(new Intent(MainActivity.this, MusicService.class));
+        Intent music = new Intent(MainActivity.this, MusicService.class);
+        startService(music);
 
     }
 
