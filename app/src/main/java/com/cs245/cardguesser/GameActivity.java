@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -122,7 +123,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2 = null;
                 }
                 else {
-                    if (score > 1) {
+                    if (score > 0) {
                         score -= 1;
                     }
                 }
