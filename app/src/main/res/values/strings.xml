@@ -6,6 +6,7 @@
     <string name="TryAgainButton">Try Again</string>
     <string name="newGame">New Game</string>
     <string name="endGame">End Game</string>
+    <string name="toggleMusic">Toggle Music</string>
 
     <string-array name="num_cards">
         <item>4</item>

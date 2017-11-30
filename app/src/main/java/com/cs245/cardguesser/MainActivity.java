@@ -16,6 +16,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private Button playButton;
+    private Button toggleMusicButton;
     private Spinner choices;
 
     @Override
@@ -23,14 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addListenerButton();
+        addListenerButtonPlay();
         addMusic();
 
 
     }
 
-
-    public void addListenerButton() {
+    public void addListenerButtonPlay() {
         choices = findViewById(R.id.spinner);
         playButton = findViewById(R.id.button);
 
@@ -44,10 +44,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+    }
 
+    private void addListenerButtonToggleMusic(){
+        toggleMusicButton = findViewById(R.id.buttonToggleMusic);
+        toggleMusicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
-
+            }
+        });
     }
 
     public void addMusic(){

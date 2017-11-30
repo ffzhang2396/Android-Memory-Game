@@ -39,5 +39,14 @@ public class MusicService extends Service{
         }
     }
 
+    public void togglePlayBack(){
+        if (mp.isPlaying()) {
+            mp.stop();
+        }
+        else {
+            mp.start();
+        }
+    }
+
 
 }

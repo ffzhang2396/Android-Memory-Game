@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -15,10 +17,6 @@ import android.widget.GridLayout;
 @SuppressLint("AppCompatCustomView")
 public class MemoryButton extends Button{
 
-    private int row;
-    private int col;
-    private int width;
-    private int height;
     private String cardID;
     private boolean isFlipped;
     private boolean isMatched;
@@ -35,12 +33,14 @@ public class MemoryButton extends Button{
         
     }
 
+
     public void flip(){
 
         //isFlipped = true show starwars image
         if(isFlipped)
         {
             setBackground(back);
+            setBackgroundResource(R.drawable.starwars);
             setText("");
             isFlipped = false;
         }
@@ -61,6 +61,16 @@ public class MemoryButton extends Button{
             setBackgroundColor(Color.WHITE);
             setText(cardID);
         }
+    }
+
+    public void setEnabled(){
+        setEnabled(!isMatched);
+    }
+
+    public void setMatched() {
+        isMatched = true;
+        setEnabled(false);
+
     }
 
     public boolean isFlipped() {
@@ -85,5 +95,45 @@ public class MemoryButton extends Button{
 
     public void setCardID(String cardID) {
         this.cardID = cardID;
+    }
+
+    private static class State implements Parcelable {
+        private String cardID;
+        private boolean isFlipped;
+        private boolean isMatched;
+        private Drawable back;
+
+
+        @SuppressLint("RestrictedApi")
+        protected State(Parcel in) {
+            cardID = in.readString();
+            isFlipped = in.readByte() != 0;
+            isMatched = in.readByte() != 0;
+
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(cardID);
+            dest.writeByte((byte) (isFlipped ? 1 : 0));
+            dest.writeByte((byte) (isMatched ? 1 : 0));
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<State> CREATOR = new Creator<State>() {
+            @Override
+            public State createFromParcel(Parcel in) {
+                return new State(in);
+            }
+
+            @Override
+            public State[] newArray(int size) {
+                return new State[size];
+            }
+        };
     }
 }

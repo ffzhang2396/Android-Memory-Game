@@ -2,7 +2,6 @@ package com.cs245.cardguesser;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,20 +13,20 @@ import android.widget.GridView;
 
 public class ButtonAdapter extends BaseAdapter {
     private Context context;
-    private String[] buttonIDs;
+    private MemoryButton[] memoryButtons;
     
-    public ButtonAdapter(Context context, String[] buttonIDs) {
+    public ButtonAdapter(Context context, MemoryButton[] memoryButtons) {
         this.context = context;
-        this.buttonIDs = buttonIDs;
+        this.memoryButtons = memoryButtons;
     }
     @Override
     public int getCount() {
-        return buttonIDs.length;
+        return memoryButtons.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return buttonIDs[i];
+        return memoryButtons[i];
     }
 
     @Override
@@ -38,23 +37,27 @@ public class ButtonAdapter extends BaseAdapter {
     @SuppressLint("RestrictedApi")
     @Override
     public View getView(final int i, View view, final ViewGroup parent) {
-        MemoryButton button;
+        MemoryButton mButton = memoryButtons[i];
         if (view == null) {
-            button = new MemoryButton(context, buttonIDs[i]);
-            button.setLayoutParams(new GridView.LayoutParams(170,330));
-            button.setPadding(5, 5, 5, 5);
+            mButton.setLayoutParams(new GridView.LayoutParams(170,330));
+            mButton.setPadding(5, 5, 5, 5);
         } else {
-            button = (MemoryButton) view;
+            mButton = (MemoryButton) view;
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((GridView) parent).performItemClick(view, i, 0);
             }
         });
 
-        button.setBack();
-        return button;
+        mButton.setBack();
+        mButton.setEnabled();
+        return mButton;
+    }
+
+    public void setMemoryButtons(MemoryButton[] memoryButtons) {
+        this.memoryButtons = memoryButtons;
     }
 }

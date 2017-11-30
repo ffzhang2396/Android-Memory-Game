@@ -5,8 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by FelixZhang on 11/14/2017.
- * Will be used for holding the backend data for the
- * actual game.
+ * Will be used for holding the backend data for the * actual game.
  */
 
 public class Game extends AppCompatActivity {

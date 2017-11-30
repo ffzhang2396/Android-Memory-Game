@@ -3,6 +3,7 @@ package com.cs245.cardguesser;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,11 +25,14 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
 
     private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
 
-    private String[] cardType;
     private String[] usedCards;
 
     private MemoryButton selected1;
     private MemoryButton selected2;
+
+    private GridView gridView;
+
+    private ButtonAdapter buttonAdapter;
 
     private Button tryAgainButton;
 
@@ -39,25 +43,35 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game4x1);
-
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
 
-        buttons = new MemoryButton[numberOfElements];
         initCards();
         setTryAgainButtonClickListenter();
+//        if(savedInstanceState != null ) {
+//            buttons = (MemoryButton[]) savedInstanceState.getParcelableArray("memButtons");
+//            buttonAdapter.setMemoryButtons(buttons);
+//        }
+
 
     }
 
     private void initCards() {
-        populateCardType();
+        buttons = new MemoryButton[numberOfElements];
         populateUsedCards();
+        for(int i = 0; i < numberOfElements; i++) {
+            buttons[i] = new MemoryButton(this, usedCards[i]);
+        }
 
-        GridView gridView = findViewById(R.id.gridView);
-        gridView.setAdapter(new ButtonAdapter(this, usedCards));
+        gridView = findViewById(R.id.gridView);
+        buttonAdapter = new ButtonAdapter(this, buttons);
+        gridView.setAdapter(buttonAdapter);
         gridView.setOnItemClickListener(this);
     }
 
     private void populateUsedCards() {
+        String[] cardType = new String[]{"Vader", "Vader", "Luke", "Luke", "Leia", "Leia", "Han Solo",
+                "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
+                "Finn", "Finn", "Lando", "Lando"};
         usedCards = new String[numberOfElements];
         for (int i = 0; i < numberOfElements; i++) {
             usedCards[i] = cardType[i];
@@ -67,11 +81,6 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    private void populateCardType() {
-        cardType = new String[]{"Vader", "Vader", "Luke", "Luke", "Leia", "Leia", "Han Solo",
-                "Han Solo", "C3PO", "C3PO", "R2D2", "R2D2", "Chewbacca", "Chewbacca", "Rey", "Rey",
-                "Finn", "Finn", "Lando", "Lando"};
-    }
 
     private void setTryAgainButtonClickListenter(){
         tryAgainButton = findViewById(R.id.tryAgain);
@@ -109,8 +118,8 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
                     score += 2;
 //                    selected1.setMatched(true);
 //                    selected2.setMatched(true);
-                    selected1.setEnabled(false);
-                    selected2.setEnabled(false);
+                    selected1.setMatched();
+                    selected2.setMatched();
                     selected1 = null;
                     selected2 = null;
                 }
@@ -126,5 +135,10 @@ public class Game4x1Activity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putParcelableArray("memButtons", (Parcelable[]) buttons);
     }
 }
