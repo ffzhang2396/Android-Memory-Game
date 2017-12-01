@@ -32,21 +32,6 @@ public class MemoryButton extends Button {
 
 
     public void flip() {
-
-/*
-        //isFlipped = true show starwars image
-        if (state.isFlipped()) {
-            setBackgroundResource(R.drawable.starwars);
-            setText("");
-            state.setFlipped(false);
-        }
-        //isFlipped = false, show cardID
-        else {
-            setBackgroundColor(Color.WHITE);
-            setText(state.getCardID());
-            state.setFlipped(true);
-        }
-*/
         state.setFlipped(!state.isFlipped());
         setBack();
 

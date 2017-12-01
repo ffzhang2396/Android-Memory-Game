@@ -56,19 +56,21 @@ public class ButtonAdapter extends BaseAdapter {
         MemoryButton button;
         final int b = i;
 //            Log.d("ButtonAdapter", "getView: create view " + i + " CardID " + states[i].getCardID());
-            button = memoryButtons[i];
-            int width = (parent.getWidth() - (5 * ((GridView)parent).getNumColumns()) )/ ((GridView)parent).getNumColumns() ;
-            int height = (int) (width * 1.7);
-            button.setLayoutParams(new GridView.LayoutParams(width, height));
-            button.setPadding(5, 5, 5, 5);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((GridView) parent).performItemClick(view, b, 0);
-                }
-            });
-            button.setId(i);
-            button.setBack();
+        button = memoryButtons[i];
+        //perfect width of card to fit size of gridview
+        int width = (parent.getWidth() - (5 * ((GridView) parent).getNumColumns())) / ((GridView) parent).getNumColumns();
+        //picture is 1.7 times taller than it is wide
+        int height = (int) (width * 1.7);
+        button.setLayoutParams(new GridView.LayoutParams(width, height));
+        button.setPadding(5, 5, 5, 5);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((GridView) parent).performItemClick(view, b, 0);
+            }
+        });
+        button.setId(i);
+        button.setBack();
 
         return button;
     }

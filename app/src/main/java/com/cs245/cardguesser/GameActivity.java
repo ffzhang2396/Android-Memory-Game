@@ -22,8 +22,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private int numberOfElements;
     private int score;
+    private int numberOfMatches;
 
     private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
+    private State[] states;
 
     private String[] usedCards;
 
@@ -49,6 +51,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
+            numberOfMatches = savedInstanceState.getInt("matches", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
             if(savedInstanceState.containsKey("selected1")) {
                 selected1 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected1"));
@@ -72,12 +75,17 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void initButtons() {
         buttons = new MemoryButton[numberOfElements];
+        states = new State[numberOfElements];
         populateUsedCards();
         for(int i = 0; i < numberOfElements; i++) {
             buttons[i] = new MemoryButton(this, new State(usedCards[i]));
         }
 
-        buttonAdapter = new ButtonAdapter(this, buttons);
+        for(int i = 0; i < numberOfElements; i++) {
+            states[i] = new State(usedCards[i]);
+        }
+
+        buttonAdapter = new ButtonAdapter(this, states);
 
     }
 
@@ -92,7 +100,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void initLayout() {
+    private void highScoreStuff() {
 
     }
 
@@ -132,10 +140,15 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 selected2.flip();
                 if (selected1.getCardID().equals(selected2.getCardID())) {
                     score += 2;
+                    numberOfMatches += 1;
                     selected1.setMatched();
                     selected2.setMatched();
                     selected1 = null;
                     selected2 = null;
+
+                    if (numberOfMatches == numberOfElements/2) { //end game condition
+                        highScoreStuff(); // Dis u Geri
+                    }
                 }
                 else {
                     if (score > 0) {
@@ -150,6 +163,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("score", score);
+        outState.putInt("matches", numberOfMatches);
         outState.putParcelableArray("states", buttonAdapter.getStates());
         if(selected1 != null) {
             outState.putInt("selected1", selected1.getId());
