@@ -16,16 +16,18 @@ import android.widget.Button;
 @SuppressLint("AppCompatCustomView")
 public class MemoryButton extends Button{
 
-    private String cardID;
-    private boolean isFlipped;
-    private boolean isMatched;
-    private Drawable back;
+    private State state;
 
     @SuppressLint("RestrictedApi")
     public MemoryButton(Context context, String cardID) {
         super(context);
+        this.state = new State();
+        state.setCardID(cardID);
+    }
 
-        this.cardID = cardID;
+    public MemoryButton(Context context, State state) {
+        super(context);
+        this.state = state;
     }
 
 
@@ -33,71 +35,101 @@ public class MemoryButton extends Button{
     public void flip(){
 
         //isFlipped = true show starwars image
-        if(isFlipped)
+        if(state.isFlipped())
         {
             setBackgroundResource(R.drawable.starwars);
             setText("");
-            isFlipped = false;
+            state.setFlipped(false);
         }
         //isFlipped = false, show cardID
         else{
             setBackgroundColor(Color.WHITE);
-            setText(cardID);
-            isFlipped = true;
+            setText(state.getCardID());
+            state.setFlipped(true);
         }
 
     }
 
     public void setBack(){
-        if(!isFlipped) {
+        if(!state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
         }
         else {
             setBackgroundColor(Color.WHITE);
-            setText(cardID);
+            setText(state.cardID);
         }
     }
 
     public void setEnabled(){
-        setEnabled(!isMatched);
+        setEnabled(!state.isMatched());
     }
 
     public void setMatched() {
-        isMatched = true;
+        state.setMatched(true);
         setEnabled(false);
 
     }
 
     public boolean isFlipped() {
-        return isFlipped;
+        return state.isFlipped();
     }
 
     public void setFlipped(boolean flipped) {
-        isFlipped = flipped;
+        state.setFlipped(flipped);
     }
 
     public boolean isMatched() {
-        return isMatched;
+        return state.isMatched();
     }
 
     public void setMatched(boolean matched) {
-        isMatched = matched;
+        state.setMatched(matched);
     }
 
     public String getCardID() {
-        return cardID;
+        return state.getCardID();
     }
 
     public void setCardID(String cardID) {
-        this.cardID = cardID;
+        this.state.setCardID(cardID);
     }
 
-    private static class State implements Parcelable {
+    public State getState() {
+        return state;
+    }
+
+    private class State implements Parcelable {
         private String cardID;
         private boolean isFlipped;
         private boolean isMatched;
-        private Drawable back;
 
+        public String getCardID() {
+            return cardID;
+        }
+
+        public void setCardID(String cardID) {
+            this.cardID = cardID;
+        }
+
+        public boolean isFlipped() {
+            return isFlipped;
+        }
+
+        public void setFlipped(boolean flipped) {
+            isFlipped = flipped;
+        }
+
+        public boolean isMatched() {
+            return isMatched;
+        }
+
+        public void setMatched(boolean matched) {
+            isMatched = matched;
+        }
+
+        public State() {
+
+        }
 
         @SuppressLint("RestrictedApi")
         protected State(Parcel in) {
@@ -119,7 +151,7 @@ public class MemoryButton extends Button{
             return 0;
         }
 
-        public static final Creator<State> CREATOR = new Creator<State>() {
+        public final Creator<State> CREATOR = new Creator<State>() {
             @Override
             public State createFromParcel(Parcel in) {
                 return new State(in);
