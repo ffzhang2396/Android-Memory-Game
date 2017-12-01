@@ -24,7 +24,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private int score;
     private int numberOfMatches;
 
-    private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
     private State[] states;
 
     private String[] usedCards;
@@ -40,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
 
+    private final String TAG = "GameActivity";
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +70,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         //initMusic();
     }
 
-
-
-
     private void initButtons() {
-        buttons = new MemoryButton[numberOfElements];
         states = new State[numberOfElements];
         populateUsedCards();
-        for(int i = 0; i < numberOfElements; i++) {
-            buttons[i] = new MemoryButton(this, new State(usedCards[i]));
-        }
 
         for(int i = 0; i < numberOfElements; i++) {
             states[i] = new State(usedCards[i]);
@@ -100,6 +93,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    //called in the onItemClickListener
     private void highScoreStuff() {
 
     }
@@ -147,6 +141,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2 = null;
 
                     if (numberOfMatches == numberOfElements/2) { //end game condition
+                        Log.d(TAG, "Game Finished");
                         highScoreStuff(); // Dis u Geri
                     }
                 }
