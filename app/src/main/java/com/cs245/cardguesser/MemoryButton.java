@@ -33,6 +33,7 @@ public class MemoryButton extends Button {
 
     public void flip() {
 
+/*
         //isFlipped = true show starwars image
         if (state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
@@ -45,6 +46,9 @@ public class MemoryButton extends Button {
             setText(state.getCardID());
             state.setFlipped(true);
         }
+*/
+        state.setFlipped(!state.isFlipped());
+        setBack();
 
     }
 
@@ -94,7 +98,7 @@ public class MemoryButton extends Button {
         return state;
     }
 
-    public void setState(State state){
+    public void setState(State state) {
         this.state = state;
     }
 }

@@ -2,6 +2,7 @@ package com.cs245.cardguesser;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,23 +16,34 @@ public class ButtonAdapter extends BaseAdapter {
     private Context context;
     private MemoryButton[] memoryButtons;
     private State[] states;
-    
+
     public ButtonAdapter(Context context, MemoryButton[] memoryButtons) {
         this.context = context;
         this.memoryButtons = memoryButtons;
         states = new State[memoryButtons.length];
-        for(int i = 0; i < memoryButtons.length; i++) {
+        for (int i = 0; i < memoryButtons.length; i++) {
             states[i] = memoryButtons[i].getState();
         }
     }
+
+    public ButtonAdapter(Context context, State[] states) {
+        this.context = context;
+        this.states = states;
+        memoryButtons = new MemoryButton[states.length];
+        for (int i = 0; i < states.length; i++) {
+            memoryButtons[i] = new MemoryButton(context, states[i]);
+        }
+
+    }
+
     @Override
     public int getCount() {
-        return memoryButtons.length;
+        return states.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return memoryButtons[i];
+        return null;
     }
 
     @Override
@@ -40,24 +52,26 @@ public class ButtonAdapter extends BaseAdapter {
     }
 
     @SuppressLint("RestrictedApi")
-    public View getView(final int i, View view, final ViewGroup parent) {
+    public View getView(int i, View view, final ViewGroup parent) {
         MemoryButton button;
-        if (view == null) {
-            button = new MemoryButton(context, "");
-            button.setState(states[i]);
-            button.setLayoutParams(new GridView.LayoutParams(170,330));
-            button.setPadding(5, 5, 5, 5);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((GridView) parent).performItemClick(view, i, 0);
-                }
-            });
+        final int b = i;
+        Log.d("ButtonAdapter", "getView: create view " + i + " CardID " + states[i].getCardID());
+        button = memoryButtons[i];
+        int width = (parent.getWidth() - (5 * ((GridView)parent).getNumColumns()) )/ ((GridView)parent).getNumColumns() ;
+        int height = (int) (width * 1.7);
+        button.setLayoutParams(new GridView.LayoutParams(width, height));
+        button.setPadding(5, 5, 5, 5);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((GridView) parent).performItemClick(view, b, 0);
+            }
+        });
 
-            button.setBack();
-        } else {
-            button = (MemoryButton) view;
-        }
+        button.setId(i);
+
+
+        button.setBack();
 
         return button;
     }
@@ -66,7 +80,7 @@ public class ButtonAdapter extends BaseAdapter {
         this.states = states;
     }
 
-    public State[] getStates(){
+    public State[] getStates() {
         return states;
     }
 }

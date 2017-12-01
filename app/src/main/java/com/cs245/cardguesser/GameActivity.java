@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -46,11 +47,18 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView = findViewById(R.id.gridView);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
-        initButtons();
 
         if(savedInstanceState != null ) {
-
+            score = savedInstanceState.getInt("score", 0);
+            buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
+            gridView.setAdapter(buttonAdapter);
+            gridView.setOnItemClickListener(this);
         }
+        else {
+            initButtons();
+        }
+
+
 
 
         //initMusic();
@@ -61,44 +69,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    public void initMusic() {
-        Intent gameMusic = new Intent(GameActivity.this, MusicService.class);
-        gameMusic.putExtra("song", "game");
-        startService(gameMusic);
-    }
-
-    public void onDestroy() {
-        super.onDestroy();
-
-        Intent destroy = new Intent(GameActivity.this, MusicService.class);
-        destroy.putExtra("song", "main");
-        startService(destroy);
-    }
-
-
-    public void onPause() {
-        super.onPause();
-
-        Intent pause = new Intent(GameActivity.this, MusicService.class);
-        pause.putExtra("song", "pause");
-        startService(pause);
-
-    }
-
-    public void onResume() {
-        super.onResume();
-
-        Intent resume = new Intent(GameActivity.this, MusicService.class);
-        resume.putExtra("song", "resume");
-        startService(resume);
-
-    }
 
     private void initButtons() {
         buttons = new MemoryButton[numberOfElements];
         populateUsedCards();
         for(int i = 0; i < numberOfElements; i++) {
-            buttons[i] = new MemoryButton(this, usedCards[i]);
+            buttons[i] = new MemoryButton(this, new State(usedCards[i]));
         }
 
         buttonAdapter = new ButtonAdapter(this, buttons);
@@ -143,6 +119,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MemoryButton button = (MemoryButton) view;
+        Log.d("GameActivity", "onItemClick: " + i + " button id: " + button.getId() + " button: " + button.getCardID());
         if (selected1 == null) {
             selected1 = button;
             selected1.flip();
@@ -170,16 +147,46 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
-
     @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("score", score);
         outState.putParcelableArray("states", buttonAdapter.getStates());
     }
 
+    public void initMusic() {
+        Intent gameMusic = new Intent(GameActivity.this, MusicService.class);
+        gameMusic.putExtra("song", "game");
+        startService(gameMusic);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+
+        Intent destroy = new Intent(GameActivity.this, MusicService.class);
+        destroy.putExtra("song", "main");
+        startService(destroy);
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        Intent pause = new Intent(GameActivity.this, MusicService.class);
+        pause.putExtra("song", "pause");
+        startService(pause);
+
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        Intent resume = new Intent(GameActivity.this, MusicService.class);
+        resume.putExtra("song", "resume");
+        startService(resume);
+
+    }
+
 }
+
+

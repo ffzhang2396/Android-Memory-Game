@@ -41,6 +41,10 @@ public class State implements Parcelable {
 
     }
 
+    public State(String cardID) {
+        this.cardID = cardID;
+    }
+
     @SuppressLint("RestrictedApi")
     protected State(Parcel in) {
         cardID = in.readString();

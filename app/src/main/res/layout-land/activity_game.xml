@@ -67,9 +67,14 @@
         android:layout_width="279dp"
         android:layout_height="255dp"
         android:numColumns="4"
+        android:columnWidth="90dp"
+        android:horizontalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonPanel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.413"
+        />
 </android.support.constraint.ConstraintLayout>
