@@ -54,6 +54,45 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 //        }
 
 
+        //initMusic();
+
+
+
+    }
+
+
+
+    public void initMusic() {
+        Intent gameMusic = new Intent(GameActivity.this, MusicService.class);
+        gameMusic.putExtra("song", "game");
+        startService(gameMusic);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+
+        Intent destroy = new Intent(GameActivity.this, MusicService.class);
+        destroy.putExtra("song", "main");
+        startService(destroy);
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        Intent pause = new Intent(GameActivity.this, MusicService.class);
+        pause.putExtra("song", "pause");
+        startService(pause);
+
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        Intent resume = new Intent(GameActivity.this, MusicService.class);
+        resume.putExtra("song", "resume");
+        startService(resume);
+
     }
 
     private void initCards() {
@@ -130,6 +169,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }
     }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
