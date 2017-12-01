@@ -4,8 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CS245-Android.iml" filepath="$PROJECT_DIR$/CS245-Android.iml" />
       <module fileurl="file://C:\Users\FelixZhang\Dropbox\CS245Android\CS245-Android.iml" filepath="C:\Users\FelixZhang\Dropbox\CS245Android\CS245-Android.iml" />
-      <module fileurl="file://C:\Users\Brandon-PC\AndroidStudioProjects\CS245-Android\CS245Android.iml" filepath="C:\Users\Brandon-PC\AndroidStudioProjects\CS245-Android\CS245Android.iml" />
       <module fileurl="file://E:\Users\Brandon\StudioProjects\CS245-Android\CS245Android.iml" filepath="E:\Users\Brandon\StudioProjects\CS245-Android\CS245Android.iml" />
+      <module fileurl="file://C:\Users\Brandon-PC\AndroidStudioProjects\CS245-Android\CS245Android.iml" filepath="C:\Users\Brandon-PC\AndroidStudioProjects\CS245-Android\CS245Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

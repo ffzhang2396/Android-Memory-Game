@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 
 @SuppressLint("AppCompatCustomView")
-public class MemoryButton extends Button{
+public class MemoryButton extends Button {
 
     private State state;
 
@@ -31,18 +31,16 @@ public class MemoryButton extends Button{
     }
 
 
-
-    public void flip(){
+    public void flip() {
 
         //isFlipped = true show starwars image
-        if(state.isFlipped())
-        {
+        if (state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
             setText("");
             state.setFlipped(false);
         }
         //isFlipped = false, show cardID
-        else{
+        else {
             setBackgroundColor(Color.WHITE);
             setText(state.getCardID());
             state.setFlipped(true);
@@ -50,17 +48,16 @@ public class MemoryButton extends Button{
 
     }
 
-    public void setBack(){
-        if(!state.isFlipped()) {
+    public void setBack() {
+        if (!state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
-        }
-        else {
+        } else {
             setBackgroundColor(Color.WHITE);
-            setText(state.cardID);
+            setText(state.getCardID());
         }
     }
 
-    public void setEnabled(){
+    public void setEnabled() {
         setEnabled(!state.isMatched());
     }
 
@@ -96,71 +93,5 @@ public class MemoryButton extends Button{
 
     public State getState() {
         return state;
-    }
-
-    private class State implements Parcelable {
-        private String cardID;
-        private boolean isFlipped;
-        private boolean isMatched;
-
-        public String getCardID() {
-            return cardID;
-        }
-
-        public void setCardID(String cardID) {
-            this.cardID = cardID;
-        }
-
-        public boolean isFlipped() {
-            return isFlipped;
-        }
-
-        public void setFlipped(boolean flipped) {
-            isFlipped = flipped;
-        }
-
-        public boolean isMatched() {
-            return isMatched;
-        }
-
-        public void setMatched(boolean matched) {
-            isMatched = matched;
-        }
-
-        public State() {
-
-        }
-
-        @SuppressLint("RestrictedApi")
-        protected State(Parcel in) {
-            cardID = in.readString();
-            isFlipped = in.readByte() != 0;
-            isMatched = in.readByte() != 0;
-
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(cardID);
-            dest.writeByte((byte) (isFlipped ? 1 : 0));
-            dest.writeByte((byte) (isMatched ? 1 : 0));
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        public final Creator<State> CREATOR = new Creator<State>() {
-            @Override
-            public State createFromParcel(Parcel in) {
-                return new State(in);
-            }
-
-            @Override
-            public State[] newArray(int size) {
-                return new State[size];
-            }
-        };
     }
 }
