@@ -39,9 +39,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent gameIntent = new Intent(MainActivity.this, GameActivity.class);
                 gameIntent.putExtra("numberOfCards", Integer.parseInt(choices.getSelectedItem().toString()));
+
+                Intent musicSwitch = new Intent(MainActivity.this, MusicService.class);
+                musicSwitch.putExtra("song", "game");
+                startService(musicSwitch);
+
+
                 startActivity(gameIntent);
-            }
-        });
+
+        }
+    });
     }
 
     public void toggleMusic() {

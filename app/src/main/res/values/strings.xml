@@ -7,7 +7,8 @@
     <string name="newGame">New Game</string>
     <string name="endGame">End Game</string>
     <string name="highScore">High Scores</string>
-    <string name="menuBGM">Sound On/Off</string>
+    <string name="menuBGMon">Sound On/Off</string>
+    <string name="menuBGMoff">Sound Off</string>
 
     <string-array name="num_cards">
         <item>4</item>

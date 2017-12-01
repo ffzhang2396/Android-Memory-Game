@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Brandon on 11/19/2017.
@@ -31,6 +32,7 @@ public class MusicService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (mp.isPlaying()) {
+            Log.i("onstartcommand", "this is running");
 
 
         String song = intent.getStringExtra("song");

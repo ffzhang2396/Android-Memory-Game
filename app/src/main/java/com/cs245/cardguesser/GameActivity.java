@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         initCards();
 
-        initMusic();
+        //initMusic();
 
 
 
@@ -76,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onResume();
 
         Intent resume = new Intent(GameActivity.this, MusicService.class);
-        resume.putExtra("song", "game");
+        resume.putExtra("song", "resume");
         startService(resume);
 
     }
