@@ -49,6 +49,15 @@ public class State implements Parcelable {
 
     }
 
+    public boolean equals(State state) {
+        if (state.getCardID().equals(cardID) && state.isFlipped == this.isFlipped && state.isMatched() == this.isMatched) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(cardID);

@@ -43,15 +43,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        gridView = findViewById(R.id.gridView);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
-
-        initCards();
         setTryAgainButtonClickListenter();
-//        if(savedInstanceState != null ) {
-//            buttons = (MemoryButton[]) savedInstanceState.getParcelableArray("memButtons");
-//            buttonAdapter.setMemoryButtons(buttons);
-//        }
+        initButtons();
+
+        if(savedInstanceState != null ) {
+
+        }
 
 
         //initMusic();
@@ -95,14 +94,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void initCards() {
+    private void initButtons() {
         buttons = new MemoryButton[numberOfElements];
         populateUsedCards();
         for(int i = 0; i < numberOfElements; i++) {
             buttons[i] = new MemoryButton(this, usedCards[i]);
         }
 
-        gridView = findViewById(R.id.gridView);
         buttonAdapter = new ButtonAdapter(this, buttons);
         gridView.setAdapter(buttonAdapter);
         gridView.setOnItemClickListener(this);
@@ -116,6 +114,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         System.arraycopy(cardType, 0, usedCards, 0, numberOfElements);
 
         Collections.shuffle(Arrays.asList(usedCards));
+
+    }
+
+    private void initLayout() {
 
     }
 
@@ -154,8 +156,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 selected2.flip();
                 if (selected1.getCardID().equals(selected2.getCardID())) {
                     score += 2;
-//                    selected1.setMatched(true);
-//                    selected2.setMatched(true);
                     selected1.setMatched();
                     selected2.setMatched();
                     selected1 = null;
@@ -174,6 +174,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArray("states", buttonAdapter.getStates());
     }
 
 }

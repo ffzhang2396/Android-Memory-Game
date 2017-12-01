@@ -51,13 +51,12 @@ public class MemoryButton extends Button {
     public void setBack() {
         if (!state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
+            setText("");
         } else {
             setBackgroundColor(Color.WHITE);
             setText(state.getCardID());
         }
-    }
 
-    public void setEnabled() {
         setEnabled(!state.isMatched());
     }
 
@@ -93,5 +92,9 @@ public class MemoryButton extends Button {
 
     public State getState() {
         return state;
+    }
+
+    public void setState(State state){
+        this.state = state;
     }
 }
