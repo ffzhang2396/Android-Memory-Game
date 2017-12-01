@@ -23,7 +23,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private int numberOfElements;
     private int score;
 
-
     private MemoryButton[] buttons; // don't do anything with this, but thought it'd be nice to have
 
     private String[] usedCards;
@@ -51,20 +50,21 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
-            gridView.setAdapter(buttonAdapter);
-            gridView.setOnItemClickListener(this);
+            if(savedInstanceState.containsKey("selected1")) {
+                selected1 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected1"));
+                if(savedInstanceState.containsKey("selected2")) {
+                    selected2 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected2"));
+                }
+            }
+
         }
         else {
             initButtons();
         }
 
-
-
-
+        gridView.setAdapter(buttonAdapter);
+        gridView.setOnItemClickListener(this);
         //initMusic();
-
-
-
     }
 
 
@@ -78,8 +78,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         buttonAdapter = new ButtonAdapter(this, buttons);
-        gridView.setAdapter(buttonAdapter);
-        gridView.setOnItemClickListener(this);
+
     }
 
     private void populateUsedCards() {
@@ -119,7 +118,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MemoryButton button = (MemoryButton) view;
-        Log.d("GameActivity", "onItemClick: " + i + " button id: " + button.getId() + " button: " + button.getCardID());
+//        Log.d("GameActivity", "onItemClick: " + i + " button id: " + button.getId() + " button: " + button.getCardID());
         if (selected1 == null) {
             selected1 = button;
             selected1.flip();
@@ -152,6 +151,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onSaveInstanceState(outState);
         outState.putInt("score", score);
         outState.putParcelableArray("states", buttonAdapter.getStates());
+        if(selected1 != null) {
+            outState.putInt("selected1", selected1.getId());
+            if(selected2!= null) {
+                outState.putInt("selected2", selected2.getId());
+            }
+        }
     }
 
     public void initMusic() {

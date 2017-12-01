@@ -43,7 +43,7 @@ public class ButtonAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return memoryButtons[i];
     }
 
     @Override
@@ -55,23 +55,20 @@ public class ButtonAdapter extends BaseAdapter {
     public View getView(int i, View view, final ViewGroup parent) {
         MemoryButton button;
         final int b = i;
-        Log.d("ButtonAdapter", "getView: create view " + i + " CardID " + states[i].getCardID());
-        button = memoryButtons[i];
-        int width = (parent.getWidth() - (5 * ((GridView)parent).getNumColumns()) )/ ((GridView)parent).getNumColumns() ;
-        int height = (int) (width * 1.7);
-        button.setLayoutParams(new GridView.LayoutParams(width, height));
-        button.setPadding(5, 5, 5, 5);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((GridView) parent).performItemClick(view, b, 0);
-            }
-        });
-
-        button.setId(i);
-
-
-        button.setBack();
+//            Log.d("ButtonAdapter", "getView: create view " + i + " CardID " + states[i].getCardID());
+            button = memoryButtons[i];
+            int width = (parent.getWidth() - (5 * ((GridView)parent).getNumColumns()) )/ ((GridView)parent).getNumColumns() ;
+            int height = (int) (width * 1.7);
+            button.setLayoutParams(new GridView.LayoutParams(width, height));
+            button.setPadding(5, 5, 5, 5);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((GridView) parent).performItemClick(view, b, 0);
+                }
+            });
+            button.setId(i);
+            button.setBack();
 
         return button;
     }
