@@ -18,6 +18,7 @@ public class MemoryButton extends Button {
 
     private State state;
 
+
     @SuppressLint("RestrictedApi")
     public MemoryButton(Context context, String cardID) {
         super(context);
@@ -49,11 +50,6 @@ public class MemoryButton extends Button {
         setEnabled(!state.isMatched());
     }
 
-    public void setMatched() {
-        state.setMatched(true);
-        setEnabled(false);
-
-    }
 
     public boolean isFlipped() {
         return state.isFlipped();

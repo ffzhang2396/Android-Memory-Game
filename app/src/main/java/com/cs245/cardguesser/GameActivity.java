@@ -30,13 +30,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private MemoryButton selected1;
     private MemoryButton selected2;
-
+    private MemoryButton flipAll;
     private GridView gridView;
 
     private ButtonAdapter buttonAdapter;
 
     private Button tryAgainButton;
-
+    private Button endGameButton;//used to end the game, flipping all the cards
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
 
     private final String TAG = "GameActivity";
@@ -48,6 +48,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView = findViewById(R.id.gridView);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
+        setEndGameButtonListener();
 
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
@@ -112,6 +113,31 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2.flip();
                     selected2 = null;
                 }
+
+                Toast.makeText(getApplicationContext(), "Score: " + score,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    //This method flips all of the cards and disables them. Error the first card is not disabled currently
+    private void setEndGameButtonListener(){
+        endGameButton = findViewById(R.id.endGame);
+        endGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < numberOfElements; i++) {
+                    flipAll = (MemoryButton) buttonAdapter.getItem(i);
+                    if(flipAll.isFlipped()==false){
+                        flipAll.flip();
+                        flipAll.setEnabled(false);
+                    } else {
+                        flipAll.setEnabled(false);
+                    }
+
+                }
+                flipAll = (MemoryButton) buttonAdapter.getItem(0);
+                flipAll.setEnabled(false);
+
                 Toast.makeText(getApplicationContext(), "Score: " + score,
                         Toast.LENGTH_SHORT).show();
             }
@@ -135,8 +161,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (selected1.getCardID().equals(selected2.getCardID())) {
                     score += 2;
                     numberOfMatches += 1;
-                    selected1.setMatched();
-                    selected2.setMatched();
+                    selected1.setMatched(true);
+                    selected2.setMatched(true);
                     selected1 = null;
                     selected2 = null;
 
