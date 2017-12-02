@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -41,6 +42,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private ButtonAdapter buttonAdapter;
 
+    private TextView textView;
+
     private Button tryAgainButton;
 
     private boolean isDialog;
@@ -53,6 +56,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gridView = findViewById(R.id.gridView);
+        textView = findViewById(R.id.textViewScore);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
 
@@ -77,6 +81,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         gridView.setAdapter(buttonAdapter);
         gridView.setOnItemClickListener(this);
+        textView.setText("Score: " + score);
         //initMusic();
     }
 
@@ -122,8 +127,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2.flip();
                     selected2 = null;
                 }
-                Toast.makeText(getApplicationContext(), "Score: " + score,
-                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -153,6 +156,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                         score -= 1;
                     }
                 }
+                textView.setText("Score: " + score);
 
                 if (numberOfMatches == numberOfElements / 2) { //end game condition
                     isDialog = true;

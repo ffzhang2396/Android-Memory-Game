@@ -9,6 +9,7 @@
     <string name="highScore">High Scores</string>
     <string name="menuBGMon">Sound On/Off</string>
     <string name="menuBGMoff">Sound Off</string>
+    <string name="score">Score: 0</string>
 
     <string-array name="num_cards">
         <item>4</item>
