@@ -1,16 +1,20 @@
 package com.cs245.cardguesser;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -28,6 +32,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private String[] usedCards;
 
+    private String name;
+
     private MemoryButton selected1;
     private MemoryButton selected2;
 
@@ -37,9 +43,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private Button tryAgainButton;
 
-    private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
+    private boolean isDialog;
 
     private final String TAG = "GameActivity";
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +56,22 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
 
-        if(savedInstanceState != null ) {
+        if (savedInstanceState != null) {
             score = savedInstanceState.getInt("score", 0);
             numberOfMatches = savedInstanceState.getInt("matches", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
-            if(savedInstanceState.containsKey("selected1")) {
+            if (savedInstanceState.containsKey("selected1")) {
                 selected1 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected1"));
-                if(savedInstanceState.containsKey("selected2")) {
+                if (savedInstanceState.containsKey("selected2")) {
                     selected2 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected2"));
                 }
             }
+            isDialog = savedInstanceState.getBoolean("dialog");
+            if(isDialog) {
+                getName();
+            }
 
-        }
-        else {
+        } else {
             initButtons();
         }
 
@@ -74,7 +84,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         states = new State[numberOfElements];
         populateUsedCards();
 
-        for(int i = 0; i < numberOfElements; i++) {
+        for (int i = 0; i < numberOfElements; i++) {
             states[i] = new State(usedCards[i]);
         }
 
@@ -93,22 +103,22 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    //called in the onItemClickListener
+    //called in the getName if the "ok" button is pressed
     private void highScoreStuff() {
 
     }
 
 
-    private void setTryAgainButtonClickListenter(){
+    private void setTryAgainButtonClickListenter() {
         tryAgainButton = findViewById(R.id.tryAgain);
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(selected1 != null) {
+                if (selected1 != null) {
                     selected1.flip();
                     selected1 = null;
                 }
-                if(selected2 != null) {
+                if (selected2 != null) {
                     selected2.flip();
                     selected2 = null;
                 }
@@ -124,11 +134,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         if (selected1 == null) {
             selected1 = button;
             selected1.flip();
-        }
-        else if(selected1.equals(button)) {
+        } else if (selected1.equals(button)) {
             return;
-        }
-        else {
+        } else {
             if (selected2 == null) {
                 selected2 = button;
                 selected2.flip();
@@ -140,32 +148,68 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected1 = null;
                     selected2 = null;
 
-                    if (numberOfMatches == numberOfElements/2) { //end game condition
-                        Log.d(TAG, "Game Finished");
-                        highScoreStuff(); // Dis u Geri
-                    }
-                }
-                else {
+                } else {
                     if (score > 0) {
                         score -= 1;
                     }
                 }
+
+                if (numberOfMatches == numberOfElements / 2) { //end game condition
+                    isDialog = true;
+                    getName(); // Geri can u do some magic to make it only pop up when theres a high score
+                    isDialog = false;
+                }
+
             }
         }
     }
 
+    // example for dialog box with field for text input, yes button, cancel button
+    // pls do high score stuff with it Geri
+    private void getName() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Please enter your name");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                name = input.getText().toString();
+                highScoreStuff(); // Dis u Geri
+                Log.d(TAG, "Name :" + name);
+                isDialog = false;
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                isDialog = false;
+            }
+        });
+
+        builder.show();
+    }
+
     @Override
-    protected void onSaveInstanceState (Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("score", score);
         outState.putInt("matches", numberOfMatches);
         outState.putParcelableArray("states", buttonAdapter.getStates());
-        if(selected1 != null) {
+        if (selected1 != null) {
             outState.putInt("selected1", selected1.getId());
-            if(selected2!= null) {
+            if (selected2 != null) {
                 outState.putInt("selected2", selected2.getId());
             }
         }
+        outState.putBoolean("dialog", isDialog);
     }
 
     public void initMusic() {
