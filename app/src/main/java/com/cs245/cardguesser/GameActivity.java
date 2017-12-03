@@ -164,31 +164,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         );
     }
-/*    public void NewGameButton(View view){
-        score = 0;
-        numberOfMatches = 0;
-        for (int i = 0; i < states.length; ++i){
-            if (states[i].isFlipped()) {
-                states[i].getCardID();
-
-                System.out.println("set flip false");
-            }
-            if (states[i].isMatched()){
-                states[i].setMatched(false);
-            System.out.println("set match false");
-            }
-        }
-        if (selected1 != null && selected1.isFlipped()){
-            System.out.println("1 is flipped");
-            selected1.flip();
-        }
-        if (selected2 != null && selected2.isFlipped()){
-            System.out.println("2 is flipped");
-            selected2.flip();
-        }*/
-//        states = null;
-//        initButtons();
-    //}
 
     @Override
     protected void onSaveInstanceState (Bundle outState) {
