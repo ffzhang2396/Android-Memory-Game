@@ -1,5 +1,6 @@
 package com.cs245.cardguesser;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.view.View;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +23,25 @@ import java.util.Scanner;
 public class HighScoreActivity extends AppCompatActivity {
 
     private Spinner number;
+    private Button backButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
 
         highScoreType();
+        backToMain();
 
+    }
+    public void backToMain(){
+        backButton = findViewById(R.id.button3);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent bIntent = new Intent(HighScoreActivity.this, MainActivity.class);
+                startActivity(bIntent);
+            }
+        });
     }
 
     public void highScoreType() {
@@ -61,7 +75,6 @@ public class HighScoreActivity extends AppCompatActivity {
                     loadScores("score20");
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 loadScores("score4");
@@ -73,11 +86,8 @@ public class HighScoreActivity extends AppCompatActivity {
 
     public void loadScores(String num_card) {
         Resources res = getResources();
-
         InputStream is = res.openRawResource(R.raw.highscores);
-
         Scanner sc = new Scanner(is);
-
         StringBuilder builder = new StringBuilder();
 
         while (sc.hasNextLine()) {
@@ -85,7 +95,6 @@ public class HighScoreActivity extends AppCompatActivity {
         }
 
         parseJson(builder.toString(), num_card);
-
     }
 
 
@@ -93,8 +102,8 @@ public class HighScoreActivity extends AppCompatActivity {
         StringBuilder builder = new StringBuilder();
         try {
             JSONObject root = new JSONObject(json);
-
             JSONArray numbers = root.getJSONArray(type);
+
             for (int i = 0; i < numbers.length(); i++) {
                 JSONObject score = numbers.getJSONObject(i);
                 builder.append(score.getString("Name")).append(" .... ").append(score.getString("Score")).append("\n");
@@ -107,6 +116,4 @@ public class HighScoreActivity extends AppCompatActivity {
         TextView txtDisplay = findViewById(R.id.textView3);
         txtDisplay.setText(builder.toString());
     }
-
-
 }
