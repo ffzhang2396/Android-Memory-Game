@@ -56,7 +56,6 @@ public class MemoryButton extends Button {
 
     }
 
-
     public boolean isFlipped() {
         return state.isFlipped();
     }

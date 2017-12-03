@@ -164,8 +164,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (selected1.getCardID().equals(selected2.getCardID())) {
                     score += 2;
                     numberOfMatches += 1;
-                    selected1.setMatched(true);
-                    selected2.setMatched(true);
+                    selected1.setMatched();
+                    selected2.setMatched();
                     selected1 = null;
                     selected2 = null;
 
