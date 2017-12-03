@@ -37,7 +37,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private MemoryButton selected1;
     private MemoryButton selected2;
-
+    private MemoryButton flipAll;
     private GridView gridView;
 
     private ButtonAdapter buttonAdapter;
@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextView textView;
 
     private Button tryAgainButton;
+    private Button endGameButton;
 
     private boolean isDialog;
 
@@ -59,8 +60,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         textView = findViewById(R.id.textViewScore);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
-
-        if (savedInstanceState != null) {
+        setEndGameButtonClickListenter();
+        if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
             numberOfMatches = savedInstanceState.getInt("matches", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
@@ -131,6 +132,23 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    private void setEndGameButtonClickListenter(){
+        endGameButton = findViewById(R.id.endGame);
+        endGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < numberOfElements; i++){
+                    flipAll = (MemoryButton) buttonAdapter.getItem(i);
+                    flipAll.setFlipped(true);
+                    flipAll.setMatched();
+                    flipAll.setBack();
+                }
+
+
+            }
+        });
+    }
+
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MemoryButton button = (MemoryButton) view;
 //        Log.d("GameActivity", "onItemClick: " + i + " button id: " + button.getId() + " button: " + button.getCardID());
@@ -146,8 +164,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (selected1.getCardID().equals(selected2.getCardID())) {
                     score += 2;
                     numberOfMatches += 1;
-                    selected1.setMatched();
-                    selected2.setMatched();
+                    selected1.setMatched(true);
+                    selected2.setMatched(true);
                     selected1 = null;
                     selected2 = null;
 
@@ -250,5 +268,3 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 }
-
-
