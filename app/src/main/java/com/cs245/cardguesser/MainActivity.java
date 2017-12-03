@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button playButton;
     private Button toggleMusicButton;
     private Spinner choices;
+    private Button hSButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +26,23 @@ public class MainActivity extends AppCompatActivity {
         addListenerButton();
         toggleMusic();
         addMusic();
+        switchToHighScore();
 
 
     }
 
+    public void switchToHighScore(){
+        hSButton = findViewById(R.id.button2);
+        hSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent hSIntent = new Intent(MainActivity.this, HighScoreActivity.class);
+                startActivity(hSIntent);
 
+
+            }
+        });
+    }
 
     public void addListenerButton() {
         choices = findViewById(R.id.spinner);
