@@ -30,12 +30,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private MemoryButton selected1;
     private MemoryButton selected2;
-
+    private MemoryButton flipAll;
     private GridView gridView;
 
     private ButtonAdapter buttonAdapter;
 
     private Button tryAgainButton;
+    private Button endGameButton;
 
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
 
@@ -48,7 +49,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView = findViewById(R.id.gridView);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
-
+        setEndGameButtonClickListenter();
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
             numberOfMatches = savedInstanceState.getInt("matches", 0);
@@ -114,6 +115,22 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 Toast.makeText(getApplicationContext(), "Score: " + score,
                         Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setEndGameButtonClickListenter(){
+        endGameButton = findViewById(R.id.endGame);
+        endGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < numberOfElements; i++){
+                    flipAll = (MemoryButton) buttonAdapter.getItem(i);
+                    flipAll.setFlipped(true);
+                    flipAll.setBack();
+                    flipAll.setEnabled(false);
+
+                }
             }
         });
     }
