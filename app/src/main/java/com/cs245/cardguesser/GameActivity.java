@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private ButtonAdapter buttonAdapter;
 
-    private Button tryAgainButton;
+    private Button tryAgainButton, newGameButton;
 
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
 
@@ -48,6 +48,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView = findViewById(R.id.gridView);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
+        setNewGameButtonClickListenter();
+
 
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
@@ -59,7 +61,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected2"));
                 }
             }
-
         }
         else {
             initButtons();
@@ -90,7 +91,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         System.arraycopy(cardType, 0, usedCards, 0, numberOfElements);
 
         Collections.shuffle(Arrays.asList(usedCards));
-
     }
 
     //called in the onItemClickListener
@@ -153,6 +153,42 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }
     }
+    private void setNewGameButtonClickListenter(){
+        newGameButton = findViewById(R.id.NewGame);
+        newGameButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        );
+    }
+/*    public void NewGameButton(View view){
+        score = 0;
+        numberOfMatches = 0;
+        for (int i = 0; i < states.length; ++i){
+            if (states[i].isFlipped()) {
+                states[i].getCardID();
+
+                System.out.println("set flip false");
+            }
+            if (states[i].isMatched()){
+                states[i].setMatched(false);
+            System.out.println("set match false");
+            }
+        }
+        if (selected1 != null && selected1.isFlipped()){
+            System.out.println("1 is flipped");
+            selected1.flip();
+        }
+        if (selected2 != null && selected2.isFlipped()){
+            System.out.println("2 is flipped");
+            selected2.flip();
+        }*/
+//        states = null;
+//        initButtons();
+    //}
 
     @Override
     protected void onSaveInstanceState (Bundle outState) {
