@@ -119,30 +119,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
     }
-    //This method flips all of the cards and disables them. Error the first card is not disabled currently
-    private void setEndGameButtonListener(){
-        endGameButton = findViewById(R.id.endGame);
-        endGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for(int i = 0; i < numberOfElements; i++) {
-                    flipAll = (MemoryButton) buttonAdapter.getItem(i);
-                    if(flipAll.isFlipped()==false){
-                        flipAll.flip();
-                        flipAll.setEnabled(false);
-                    } else {
-                        flipAll.setEnabled(false);
-                    }
-
-                }
-                flipAll = (MemoryButton) buttonAdapter.getItem(0);
-                flipAll.setEnabled(false);
-
-                Toast.makeText(getApplicationContext(), "Score: " + score,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void setEndGameButtonClickListenter(){
         endGameButton = findViewById(R.id.endGame);
@@ -152,8 +128,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 for(int i = 0; i < numberOfElements; i++){
                     flipAll = (MemoryButton) buttonAdapter.getItem(i);
                     flipAll.setFlipped(true);
-                    flipAll.setBack();
                     flipAll.setMatched();
+                    flipAll.setBack();
                 }
 
 
