@@ -128,9 +128,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     flipAll = (MemoryButton) buttonAdapter.getItem(i);
                     flipAll.setFlipped(true);
                     flipAll.setBack();
-                    flipAll.setEnabled(false);
-
+                    flipAll.setMatched();
                 }
+
+
             }
         });
     }
