@@ -23,6 +23,18 @@
 
     </GridView>
 
+    <TextView
+        android:id="@+id/textViewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/score"
+        android:text="Score: 0"
+        android:layout_marginLeft="16dp" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/buttonPanel"
         android:layout_width="115dp"
@@ -83,5 +95,7 @@
             app:layout_constraintTop_toBottomOf="@+id/NewGame"
             app:layout_constraintVertical_bias="0.841" />
     </android.support.constraint.ConstraintLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

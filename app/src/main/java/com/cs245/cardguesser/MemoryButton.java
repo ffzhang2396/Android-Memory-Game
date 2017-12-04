@@ -18,6 +18,7 @@ public class MemoryButton extends Button {
 
     private State state;
 
+
     @SuppressLint("RestrictedApi")
     public MemoryButton(Context context, String cardID) {
         super(context);

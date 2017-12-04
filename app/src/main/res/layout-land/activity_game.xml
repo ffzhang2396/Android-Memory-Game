@@ -64,17 +64,27 @@
 
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="279dp"
-        android:layout_height="255dp"
-        android:numColumns="4"
+        android:layout_width="474dp"
+        android:layout_height="259dp"
         android:columnWidth="90dp"
         android:horizontalSpacing="5dp"
+        android:numColumns="6"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonPanel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413"
-        />
+        app:layout_constraintVertical_bias="0.413" />
+
+    <TextView
+        android:id="@+id/textViewScore"
+        android:layout_width="104dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="40dp"
+        android:text="Score: 0"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/score" />
 </android.support.constraint.ConstraintLayout>
