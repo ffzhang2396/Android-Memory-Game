@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,16 +14,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
@@ -127,7 +129,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         if(score > Integer.valueOf(hScores[1][4])){
             isDialog = true;
             getName();
-            updateHSList("NAMEHERE",score);
         }else{
 
         }
@@ -152,21 +153,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             hScores[1][n] = tempArr[1][n];
         }
 
-        
-        for(int n = 0;n < 5; n++){
-            System.out.println(hScores[0][n]);
-            System.out.println(hScores[1][n]);
-        }
+        overwriteJSON();
 
     }
 
     private void overwriteJSON(){
-
-    }
-
-    // Read the JSON file and loads the scores returns a 2D array
-    private String[][] loadScoresArray(String num_card) {
-        String scores [] [] = new String[2][5];
         Resources res = getResources();
         InputStream is = res.openRawResource(R.raw.highscores);
         Scanner sc = new Scanner(is);
@@ -175,8 +166,53 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         while (sc.hasNextLine()) {
             builder.append(sc.nextLine());
         }
+        String num = "score" + Integer.toString(numberOfElements);
+        try {
+            JSONObject root = new JSONObject(builder.toString());
+            JSONArray numbers = root.getJSONArray(num);
 
-        scores = parseJson(builder.toString(), num_card);
+            for (int i = 0; i < numbers.length(); i++) {
+                JSONObject score = numbers.getJSONObject(i);
+                score.put("Name",hScores[0][i]);
+                score.put("Score",hScores[1][i]);
+            }
+
+            System.out.println(root);
+            FileOutputStream fileOut = openFileOutput("highscore.txt", MODE_PRIVATE);
+            OutputStreamWriter os = new OutputStreamWriter(fileOut);
+            os.write(root.toString());
+            os.close();
+            System.out.println("Created file\n");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }catch(IOException e){
+            System.out.print("Write Exception\n");
+        }
+
+    }
+
+    // Read the JSON file and loads the scores returns a 2D array
+    private String[][] loadScoresArray(String num_card) {
+        String scores [] [] = new String[2][5];
+        try{
+            FileInputStream fileIn=openFileInput("highscore.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[100];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            scores = parseJson(s, num_card);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return scores;
     }
 
@@ -287,6 +323,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
                 Log.d(TAG, "Name :" + name);
+                updateHSList(name,score);
                 isDialog = false;
             }
         });

@@ -15,8 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 
@@ -34,7 +36,7 @@ public class HighScoreActivity extends AppCompatActivity {
 
     }
     public void backToMain(){
-        backButton = findViewById(R.id.button3);
+        backButton = findViewById(R.id.back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +47,7 @@ public class HighScoreActivity extends AppCompatActivity {
     }
 
     public void highScoreType() {
-        number = findViewById(R.id.spinner3);
+        number = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(HighScoreActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.num_cards));
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,22 +87,31 @@ public class HighScoreActivity extends AppCompatActivity {
 
 
     public void loadScores(String num_card) {
-        Resources res = getResources();
-        InputStream is = res.openRawResource(R.raw.highscores);
-        Scanner sc = new Scanner(is);
-        StringBuilder builder = new StringBuilder();
+        try{
+        FileInputStream fileIn=openFileInput("highscore.txt");
+        InputStreamReader InputRead= new InputStreamReader(fileIn);
 
-        while (sc.hasNextLine()) {
-            builder.append(sc.nextLine());
+        char[] inputBuffer= new char[100];
+        String s="";
+        int charRead;
+        while ((charRead=InputRead.read(inputBuffer))>0) {
+            // char to string conversion
+            String readstring=String.copyValueOf(inputBuffer,0,charRead);
+            s +=readstring;
+        }
+        parseJson(s, num_card);} catch (FileNotFoundException e) {
+            e.printStackTrace(); 
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        parseJson(builder.toString(), num_card);
     }
 
 
     public void parseJson(String json, String type) {
         StringBuilder builder = new StringBuilder();
         try {
+
             JSONObject root = new JSONObject(json);
             JSONArray numbers = root.getJSONArray(type);
 
@@ -109,11 +120,10 @@ public class HighScoreActivity extends AppCompatActivity {
                 builder.append(score.getString("Name")).append(" .... ").append(score.getString("Score")).append("\n");
             }
 
-        } catch (JSONException e) {
+        }  catch (JSONException e) {
             e.printStackTrace();
         }
-
-        TextView txtDisplay = findViewById(R.id.textView3);
+        TextView txtDisplay = findViewById(R.id.scores);
         txtDisplay.setText(builder.toString());
     }
 }
