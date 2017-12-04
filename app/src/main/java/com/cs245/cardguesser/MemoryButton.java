@@ -66,7 +66,7 @@ public class MemoryButton extends Button {
         matrix.setSaturation(0);
 
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-
+        icon.mutate();
         icon.setColorFilter(filter);
 
         return icon;
