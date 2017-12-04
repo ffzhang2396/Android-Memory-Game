@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private ButtonAdapter buttonAdapter;
 
-    private Button tryAgainButton, newGameButton;
+    private Button tryAgainButton, newGameButton, backButton;
 
     private boolean isBusy = false; // used to wait 500 ms for user to see the flipped card
 
@@ -49,7 +49,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
         setNewGameButtonClickListenter();
-
+        setBackButtonClickListener();
 
         if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
@@ -68,6 +68,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         gridView.setAdapter(buttonAdapter);
         gridView.setOnItemClickListener(this);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
         //initMusic();
     }
 
@@ -153,6 +154,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }
     }
+    // activity_game land and reg have all ids camel case except newgame?
+    // implement using ButtonAdapter?
     private void setNewGameButtonClickListenter(){
         newGameButton = findViewById(R.id.NewGame);
         newGameButton.setOnClickListener(new View.OnClickListener(){
@@ -160,6 +163,18 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 public void onClick(View view) {
                     finish();
                     startActivity(getIntent());
+                }
+            }
+        );
+    }
+    private void setBackButtonClickListener(){
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(GameActivity.this, MainActivity.class);
+                    finish();
+                    startActivity(i);
                 }
             }
         );
