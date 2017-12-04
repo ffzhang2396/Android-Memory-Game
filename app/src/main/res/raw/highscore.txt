@@ -1,71 +1,53 @@
 {
      "score4":[
-	{"Name":"AAA","Score":"5"},
-	{"Name":"AAA","Score":"4"},
 	{"Name":"AAA","Score":"3"},
 	{"Name":"AAA","Score":"2"},
 	{"Name":"AAA","Score":"1"}
 	]
 ,
  "score6":[
-	{"Name":"BBB","Score":"5"},
-	{"Name":"BBB","Score":"4"},
 	{"Name":"BBB","Score":"3"},
 	{"Name":"BBB","Score":"2"},
 	{"Name":"BBB","Score":"1"}
 	]
 ,
  "score8":[
-	{"Name":"CCC","Score":"5"},
-	{"Name":"CCC","Score":"4"},
 	{"Name":"CCC","Score":"3"},
 	{"Name":"CCC","Score":"2"},
 	{"Name":"CCC","Score":"1"}
 	]
 ,
  "score10":[
-	{"Name":"DDD","Score":"5"},
-	{"Name":"DDD","Score":"4"},
 	{"Name":"DDD","Score":"3"},
 	{"Name":"DDD","Score":"2"},
 	{"Name":"DDD","Score":"1"}
 	]
 ,
  "score12":[
-	{"Name":"EEE","Score":"5"},
-	{"Name":"EEE","Score":"4"},
 	{"Name":"EEE","Score":"3"},
 	{"Name":"EEE","Score":"2"},
 	{"Name":"EEE","Score":"1"}
 	]
 ,
  "score14":[
-	{"Name":"FFF","Score":"5"},
-	{"Name":"FFF","Score":"4"},
 	{"Name":"FFF","Score":"3"},
 	{"Name":"FFF","Score":"2"},
 	{"Name":"FFF","Score":"1"}
 	]
 ,
  "score16":[
-	{"Name":"GGG","Score":"5"},
-	{"Name":"GGG","Score":"4"},
 	{"Name":"GGG","Score":"3"},
 	{"Name":"GGG","Score":"2"},
 	{"Name":"GGG","Score":"1"}
 	]
 ,
  "score18":[
-	{"Name":"HHH","Score":"5"},
-	{"Name":"HHH","Score":"4"},
 	{"Name":"HHH","Score":"3"},
 	{"Name":"HHH","Score":"2"},
 	{"Name":"HHH","Score":"1"}
 	]
 ,
 	"score20":[
-	{"Name":"III","Score":"5"},
-	{"Name":"III","Score":"4"},
 	{"Name":"III","Score":"3"},
 	{"Name":"III","Score":"2"},
 	{"Name":"III","Score":"1"}

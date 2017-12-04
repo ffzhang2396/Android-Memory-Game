@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -33,6 +32,7 @@ import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private State[] states;
     private String[] usedCards;
     private String name;
+    private String strScore;
 
     private MemoryButton selected1;
     private MemoryButton selected2;
@@ -171,24 +172,38 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     //called in the onItemClick if the game finishes
+    /*
+    method: highScoreStuff
+    purpose: called when game ends and checks if user has new highscore
+     */
     private void highScoreStuff() {
 
-        String num = "score" + Integer.toString(numberOfElements);
-        hScores = loadScoresArray(num);
+        strScore = "score" + Integer.toString(numberOfElements);
+        // Get current highscores from text file
+        hScores = loadScoresArray(strScore);
 
-        // If score is greater than lowest highscore add it new highscore
-        if(score > Integer.valueOf(hScores[1][4])){
+        // If score is greater than lowest highscore add it to new highscore
+        if(score > Integer.valueOf(hScores[1][2])){
             isDialog = true;
+            // Display dialog box asking for name
             getName();
-        }else{
-
+        }
+        // Display dialog box showing score and "sorry"
+        else{
+            notHighScore();
         }
     }
+
+    /*
+    method: updateHSList
+    purpose: updates hScores array with new highscore added in
+     */
     private void updateHSList(String name, int score){
         // Create temporary array
-        String tempArr [][] = new String [2][5];
+        String tempArr [][] = new String [2][3];
         boolean inserted = false;
-        for (int i = 0,x=0; i < 5; i++,x++){
+        // Copies hScores array while inserting new highscore in correct place (inside temp array)
+        for (int i = 0,x=0; i < 3; i++,x++){
             if(score > Integer.valueOf(hScores[1][i]) && !inserted){
                 tempArr[0][i] = name;
                 tempArr[1][i] = Integer.toString(score);
@@ -199,41 +214,82 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             tempArr[1][i] = hScores[1][x];
         }
 
-        for(int n = 0;n < 5; n++){
+        // Copy temp array to highscores array
+        for(int n = 0;n < 3; n++){
             hScores[0][n] = tempArr[0][n];
             hScores[1][n] = tempArr[1][n];
         }
 
-        overwriteJSON();
+        // DEBUGGING PURPOSES
+        // Prints out new highscores list
+        // THIS ARRAY IS CORRECT
+        for(int n = 0;n < 3; n++){
+            System.out.println(hScores[0][n]);
+            System.out.println(hScores[1][n]);
+        }
+
+        // Writes highscore array to file
+        writeToFile();
 
     }
 
-    private void overwriteJSON(){
-        Resources res = getResources();
-        InputStream is = res.openRawResource(R.raw.highscores);
-        Scanner sc = new Scanner(is);
-        StringBuilder builder = new StringBuilder();
+    /*
+    method: writeToFile
+    purpose: writes highscores 2D array (hScores) to highscore text file
+     */
+    private void writeToFile(){
 
-        while (sc.hasNextLine()) {
-            builder.append(sc.nextLine());
-        }
         String num = "score" + Integer.toString(numberOfElements);
         try {
-            JSONObject root = new JSONObject(builder.toString());
+            // Gets current highscore file and reads it
+            FileInputStream fileIn=openFileInput("highscore.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[100];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+
+            // DEBUGGING PURPOSES
+            // Prints out text file as string
+            System.out.println(s);
+
+            // Coverts file to JSON
+            JSONObject root = new JSONObject(s);
             JSONArray numbers = root.getJSONArray(num);
 
+            // Updates JSON object for the specific type of highscores
+            // and replaces values with that of the updated hScores array
             for (int i = 0; i < numbers.length(); i++) {
                 JSONObject score = numbers.getJSONObject(i);
                 score.put("Name",hScores[0][i]);
                 score.put("Score",hScores[1][i]);
             }
 
+            // DEBUGGING PURPOSES
+            // Prints out new highscores string to be written to text file
+            // THIS STRING IS CORRECT
             System.out.println(root);
+
+            // Delete contents of file
+            PrintWriter pw = new PrintWriter("highscore.txt");
+            pw.close();
+
+            // SHOULD WRITE THE UPDATED HIGHSCORES TO TEXT FILE
+            // BUT COULD BE A PROBLEM HERE OR IN PRINT WRITER
+            // GETTING A WRITE EXECEPTION ERROR
             FileOutputStream fileOut = openFileOutput("highscore.txt", MODE_PRIVATE);
             OutputStreamWriter os = new OutputStreamWriter(fileOut);
             os.write(root.toString());
             os.close();
-            System.out.println("Created file\n");
+            System.out.println("Created/Updated file\n");
+
+            System.out.println(s);
         } catch (JSONException e) {
             e.printStackTrace();
         }catch(IOException e){
@@ -242,9 +298,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    // Read the JSON file and loads the scores returns a 2D array
+    /*
+    method: loadScoresArray
+    purpose: reads the highscore.txt file as stores it as a string s
+    parameters: num_card: number of cards in game
+    returns: 2D array containing top 3 highscores (not including new one)
+     */
     private String[][] loadScoresArray(String num_card) {
-        String scores [] [] = new String[2][5];
+        String scores [] [] = new String[2][3];
         try{
             FileInputStream fileIn=openFileInput("highscore.txt");
             InputStreamReader InputRead= new InputStreamReader(fileIn);
@@ -258,6 +319,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 String readstring=String.copyValueOf(inputBuffer,0,charRead);
                 s +=readstring;
             }
+
+            // Parse string as JSON file, returns scores array
             scores = parseJson(s, num_card);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -267,9 +330,15 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return scores;
     }
 
-    // Gets specific scores for the number of cards chosen
+    /*
+    method: parseJSON
+    purpose: gets file string json and gets the highscores for that number of cards
+    parameters: json: highscore.txt represented as string
+                type: number of cards
+    returns: the 2D array containing the top 3 highscores and names
+     */
     private String [][] parseJson(String json, String type) {
-        String nameScore [][] = new String[2][5];
+        String nameScore [][] = new String[2][3];
         try {
             JSONObject root = new JSONObject(json);
             JSONArray numbers = root.getJSONArray(type);
@@ -399,6 +468,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
                 Log.d(TAG, "Name :" + name);
+                // Gets the name and adds it to the highscore list with the score
                 updateHSList(name,score);
                 isDialog = false;
             }
@@ -412,6 +482,29 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         builder.show();
+    }
+
+    /*
+    method: notHighScore()
+    purpose: shows dialog box after user completes the game but their score is not a highscore
+    displays their score and says sorry, then button to exit dialog box
+     */
+    private void notHighScore() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        String strScore = "Score: " + Integer.toString(score) + "\n Sorry you didn't get a highscore.";
+        builder1.setMessage(strScore);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     @Override

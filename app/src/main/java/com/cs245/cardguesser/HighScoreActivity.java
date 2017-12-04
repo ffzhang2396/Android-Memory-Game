@@ -1,7 +1,6 @@
 package com.cs245.cardguesser;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
@@ -35,6 +34,10 @@ public class HighScoreActivity extends AppCompatActivity {
         backToMain();
 
     }
+    /*
+    method: backToMain
+    purpose: back button to switch back to main menu
+     */
     public void backToMain(){
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +49,14 @@ public class HighScoreActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    method: highScoreType
+    purpose: uses spinner and gets the type of highscore to display
+    by calling loadScores and passing the type of highscore seleceted
+     */
     public void highScoreType() {
         number = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(HighScoreActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.num_cards));
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         number.setAdapter(adapter);
         number.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,21 +92,27 @@ public class HighScoreActivity extends AppCompatActivity {
 
     }
 
-
+    /*
+    method: loadScores
+    purpose: reads highscore text file located in data/data/<packageName> and stores it as a string s
+    then passes it to parseJSON function to be read as a JSON object
+    parameter: num_card: number of cards for the game
+     */
     public void loadScores(String num_card) {
         try{
-        FileInputStream fileIn=openFileInput("highscore.txt");
-        InputStreamReader InputRead= new InputStreamReader(fileIn);
-
-        char[] inputBuffer= new char[100];
-        String s="";
-        int charRead;
-        while ((charRead=InputRead.read(inputBuffer))>0) {
-            // char to string conversion
-            String readstring=String.copyValueOf(inputBuffer,0,charRead);
-            s +=readstring;
-        }
-        parseJson(s, num_card);} catch (FileNotFoundException e) {
+            // Read highscore.txt
+            FileInputStream fileIn=openFileInput("highscore.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+            char[] inputBuffer= new char[100];
+            String s="";
+            int charRead;
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            // Parse string as JSON
+            parseJSON(s, num_card);} catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,13 +121,20 @@ public class HighScoreActivity extends AppCompatActivity {
     }
 
 
-    public void parseJson(String json, String type) {
+    /*
+    method: parseJSON
+    purpose: take in a string json and parse it into JSON objects
+    parameter: json: file read as string
+               type: JSON object 'score4', 'score6' etc
+     */
+    public void parseJSON(String json, String type) {
         StringBuilder builder = new StringBuilder();
         try {
-
+            // { }
             JSONObject root = new JSONObject(json);
+            // 'score4' , 'score6' or 'score8' etc object
             JSONArray numbers = root.getJSONArray(type);
-
+            // reads scores in that object
             for (int i = 0; i < numbers.length(); i++) {
                 JSONObject score = numbers.getJSONObject(i);
                 builder.append(score.getString("Name")).append(" .... ").append(score.getString("Score")).append("\n");
@@ -123,6 +143,7 @@ public class HighScoreActivity extends AppCompatActivity {
         }  catch (JSONException e) {
             e.printStackTrace();
         }
+        // Displays the scores to highscore window
         TextView txtDisplay = findViewById(R.id.scores);
         txtDisplay.setText(builder.toString());
     }
