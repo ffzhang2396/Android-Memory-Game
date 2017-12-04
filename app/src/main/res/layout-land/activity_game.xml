@@ -60,6 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.972" />
+
     </android.support.constraint.ConstraintLayout>
 
     <GridView
@@ -82,9 +83,25 @@
         android:layout_width="104dp"
         android:layout_height="27dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="40dp"
         android:text="Score: 0"
         app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/score" />
+
+    <ToggleButton
+        android:id="@+id/gameToggleButton"
+        android:layout_width="83dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.732"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

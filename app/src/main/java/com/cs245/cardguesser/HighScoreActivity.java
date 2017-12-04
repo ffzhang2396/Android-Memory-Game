@@ -100,7 +100,7 @@ public class HighScoreActivity extends AppCompatActivity {
             s +=readstring;
         }
         parseJson(s, num_card);} catch (FileNotFoundException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
