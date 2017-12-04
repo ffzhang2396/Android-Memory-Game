@@ -109,9 +109,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    //called in the getName if the "ok" button is pressed
+    //called in the onItemClick if the game finishes
     private void highScoreStuff() {
-
+        isDialog = true;
+        getName(); // should probably only display the dialog if there is a new high score or something
+        // can help make another dialog if it is not a high score
     }
 
 
@@ -177,9 +179,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 textView.setText("Score: " + score);
 
                 if (numberOfMatches == numberOfElements / 2) { //end game condition
-                    isDialog = true;
-                    getName(); // Geri can u do some magic to make it only pop up when theres a high score
-                    isDialog = false;
+                    highScoreStuff();
                 }
 
             }
@@ -187,14 +187,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // example for dialog box with field for text input, yes button, cancel button
-    // pls do high score stuff with it Geri
     private void getName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Please enter your name");
+        builder.setTitle("Please enter your name"); 
 
         // Set up the input
         final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        // Specify the type of input expected
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
@@ -203,7 +202,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
-                highScoreStuff(); // Dis u Geri
                 Log.d(TAG, "Name :" + name);
                 isDialog = false;
             }
