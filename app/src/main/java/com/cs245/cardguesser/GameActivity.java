@@ -43,11 +43,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private int score;
     private int numberOfMatches;
     private String [][] hScores = new String[2][5];
-
     private State[] states;
-
     private String[] usedCards;
-
     private String name;
 
     private MemoryButton selected1;
@@ -59,8 +56,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private TextView textView;
 
-    private Button tryAgainButton;
-    private Button endGameButton;
+    private Button tryAgainButton, newGameButton, backButton, endGameButton;
 
     private boolean isDialog;
     private boolean isToggled;
@@ -83,7 +79,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
         setEndGameButtonClickListenter();
-        if (savedInstanceState != null) {
+        setNewGameButtonClickListenter();
+        setBackButtonClickListener();
+
+        if(savedInstanceState != null ) {
             score = savedInstanceState.getInt("score", 0);
             numberOfMatches = savedInstanceState.getInt("matches", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
@@ -93,12 +92,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     selected2 = (MemoryButton) buttonAdapter.getItem(savedInstanceState.getInt("selected2"));
                 }
             }
+
             isDialog = savedInstanceState.getBoolean("dialog");
             if (isDialog) {
                 getName();
             }
 
-        } else {
+        }
+        else {
             initButtons();
         }
 
@@ -167,7 +168,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         System.arraycopy(cardType, 0, usedCards, 0, numberOfElements);
 
         Collections.shuffle(Arrays.asList(usedCards));
-
     }
 
     //called in the onItemClick if the game finishes
@@ -355,6 +355,31 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
         }
+    }
+    // activity_game land and reg have all ids camel case except newgame?
+    // implement using ButtonAdapter?
+    private void setNewGameButtonClickListenter(){
+        newGameButton = findViewById(R.id.NewGame);
+        newGameButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        );
+    }
+    private void setBackButtonClickListener(){
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(GameActivity.this, MainActivity.class);
+                    finish();
+                    startActivity(i);
+                }
+            }
+        );
     }
 
     // example for dialog box with field for text input, yes button, cancel button
