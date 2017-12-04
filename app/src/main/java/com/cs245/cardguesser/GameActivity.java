@@ -95,6 +95,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         toggleMusic();
     }
 
+    /*
+    Button listener for the toggle button to play music or not.
+     */
     public void toggleMusic() {
         music = findViewById(R.id.gameToggleButton);
 
@@ -277,13 +280,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         outState.putBoolean("dialog", isDialog);
     }
 
-    public void initMusic() {
-        Intent gameMusic = new Intent(GameActivity.this, MusicService.class);
-        gameMusic.putExtra("song", "game");
-        startService(gameMusic);
-    }
 
-
+/*
+Method override in order to facilitate the back button pressed in order to make sure
+the music is changing.
+ */
     public void onBackPressed() {
         super.onBackPressed();
         Intent destroy = new Intent(GameActivity.this, MusicService.class);
@@ -291,6 +292,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         startService(destroy);
     }
 
+    /*
+    function override to make sure the music stops playing when the appe enters the background.
+     */
     public void onPause() {
         super.onPause();
 
@@ -300,6 +304,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /*
+    Function override to make sure the music starts playing again when the app enters the foreground.
+     */
     public void onResume() {
         super.onResume();
 
