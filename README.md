@@ -8,7 +8,7 @@
 - [x] The layout should change on rotation, but the state of the game should be maintained.
 # Users should be able to:
 - [ ] Start a new game. ( : got dis)
-- [ ] End a game and show the answers. (Charly to the rescue)
+- [x] End a game and show the answers. (Charly to the rescue)
 - [ ] Users can play and stop music. (Professor Felix is on the case)
 - [x] Rotation does not cause music to stop.
 - [x] Users are prompted for a name at the completion of a game. (Brandon if no one else wants it) 
