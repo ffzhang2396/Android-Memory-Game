@@ -3,6 +3,7 @@ package com.cs245.cardguesser;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.util.Log;
 
 public class MusicService extends Service{
     private MediaPlayer mp;
+    private boolean isToggled;
 
 
     @Override
@@ -31,11 +33,15 @@ public class MusicService extends Service{
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (mp.isPlaying()) {
-            Log.i("onstartcommand", "this is running");
 
 
-        String song = intent.getStringExtra("song");
+//        if (mp.isPlaying()) {
+//            Log.i("onstartcommand", "this is running");
+
+        Bundle extras = intent.getExtras();
+
+        String song = (extras == null) ? " " : extras.getString("song");
+
 
         switch (song) {
             case "pause":
@@ -57,11 +63,8 @@ public class MusicService extends Service{
                 mp.start();
                 break;
             default:
+                mp.start();
                 break;
-        }
-
-    } else {
-            mp.start();
         }
 
 

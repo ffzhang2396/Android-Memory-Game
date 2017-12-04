@@ -14,11 +14,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,20 +50,27 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button endGameButton;
 
     private boolean isDialog;
+    private boolean isToggled;
+    private ToggleButton music;
+    private boolean state;
 
     private final String TAG = "GameActivity";
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        isToggled = getIntent().getBooleanExtra("isToggled", false);
+        Log.v(" game Activity", "" + isToggled);
         gridView = findViewById(R.id.gridView);
         textView = findViewById(R.id.textViewScore);
         this.numberOfElements = getIntent().getIntExtra("numberOfCards", 0);
         setTryAgainButtonClickListenter();
         setEndGameButtonClickListenter();
-        if(savedInstanceState != null ) {
+        if (savedInstanceState != null) {
             score = savedInstanceState.getInt("score", 0);
             numberOfMatches = savedInstanceState.getInt("matches", 0);
             buttonAdapter = new ButtonAdapter(this, (State[]) savedInstanceState.getParcelableArray("states"));
@@ -72,7 +81,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
             isDialog = savedInstanceState.getBoolean("dialog");
-            if(isDialog) {
+            if (isDialog) {
                 getName();
             }
 
@@ -83,8 +92,47 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView.setAdapter(buttonAdapter);
         gridView.setOnItemClickListener(this);
         textView.setText("Score: " + score);
-        //initMusic();
+        toggleMusic();
     }
+
+    /*
+    Button listener for the toggle button to play music or not.
+     */
+    public void toggleMusic() {
+        music = findViewById(R.id.gameToggleButton);
+
+        if (isToggled) {
+            music.setChecked(true);
+            state = true;
+        }
+
+        music.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if (isChecked) {
+                    Intent pause = new Intent(GameActivity.this, MusicService.class);
+                    pause.putExtra("song", "pause");
+                    pause.putExtra("isToggledOff", true);
+                    startService(pause);
+                    isToggled = true;
+                } else {
+                    Intent resume = new Intent(GameActivity.this, MusicService.class);
+
+                    if (isToggled && state) {
+                        resume.putExtra("song", "game");
+                        state = false;
+                    } else {
+                        resume.putExtra("song", "resume");
+                    }
+                    startService(resume);
+                    isToggled = false;
+                }
+            }
+        });
+
+    }
+
 
     private void initButtons() {
         states = new State[numberOfElements];
@@ -134,12 +182,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-    private void setEndGameButtonClickListenter(){
+    private void setEndGameButtonClickListenter() {
         endGameButton = findViewById(R.id.endGame);
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i = 0; i < numberOfElements; i++){
+                for (int i = 0; i < numberOfElements; i++) {
                     flipAll = (MemoryButton) buttonAdapter.getItem(i);
                     flipAll.setFlipped(true);
                     flipAll.setMatched();
@@ -189,7 +237,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     // example for dialog box with field for text input, yes button, cancel button
     private void getName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Please enter your name"); 
+        builder.setTitle("Please enter your name");
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -232,21 +280,21 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         outState.putBoolean("dialog", isDialog);
     }
 
-    public void initMusic() {
-        Intent gameMusic = new Intent(GameActivity.this, MusicService.class);
-        gameMusic.putExtra("song", "game");
-        startService(gameMusic);
-    }
 
-    public void onDestroy() {
-        super.onDestroy();
-
+/*
+Method override in order to facilitate the back button pressed in order to make sure
+the music is changing.
+ */
+    public void onBackPressed() {
+        super.onBackPressed();
         Intent destroy = new Intent(GameActivity.this, MusicService.class);
         destroy.putExtra("song", "main");
         startService(destroy);
     }
 
-
+    /*
+    function override to make sure the music stops playing when the appe enters the background.
+     */
     public void onPause() {
         super.onPause();
 
@@ -256,12 +304,18 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /*
+    Function override to make sure the music starts playing again when the app enters the foreground.
+     */
     public void onResume() {
         super.onResume();
 
-        Intent resume = new Intent(GameActivity.this, MusicService.class);
-        resume.putExtra("song", "resume");
-        startService(resume);
+        if (!isToggled) {
+            Intent resume = new Intent(GameActivity.this, MusicService.class);
+            resume.putExtra("song", "resume");
+            startService(resume);
+        }
+
 
     }
 
