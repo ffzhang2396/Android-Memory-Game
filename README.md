@@ -14,5 +14,7 @@
 - [x] Users are prompted for a name at the completion of a game. (Brandon if no one else wants it) 
 - [X] Scores and usernames are read from a file. ( Geri)
 - [X] Check HighScore at end of game to see if it is a highscore. ( Geri)
-- [ ] Add new highscore to JSON file. ( Geri)
+- [X] Add new highscore to JSON file. ( Geri)
+- [ ] Comment my code ( Geri)
+- [ ] If not highscore say something ( Geri)
 - [ ] Users can perform ancestral navigation using an Up button. ( : got dis)
