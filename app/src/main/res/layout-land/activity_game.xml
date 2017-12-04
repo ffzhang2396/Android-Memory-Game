@@ -93,15 +93,13 @@
         android:id="@+id/gameToggleButton"
         android:layout_width="83dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textOn="@string/on"
+        android:layout_marginBottom="340dp"
+        android:layout_marginEnd="164dp"
         android:textOff="@string/off"
+        android:textOn="@string/on"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.732"/>
+        android:layout_marginRight="164dp" />
 
     <Button
         android:id="@+id/backButton"
