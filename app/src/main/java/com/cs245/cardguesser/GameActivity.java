@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileOutputStream;
@@ -277,7 +278,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             System.out.println(root);
 
             // Delete contents of file
-            PrintWriter pw = new PrintWriter("highscore.txt");
+            PrintWriter pw = new PrintWriter(new FileWriter(getFilesDir() + "highscore.txt"));
             pw.close();
 
             // SHOULD WRITE THE UPDATED HIGHSCORES TO TEXT FILE
@@ -294,6 +295,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             e.printStackTrace();
         }catch(IOException e){
             System.out.print("Write Exception\n");
+            e.printStackTrace();;
         }
 
     }

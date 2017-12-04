@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,6 +24,7 @@ import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private Button playButton;
     private Button toggleMusicButton;
     private Spinner choices;
@@ -140,7 +142,7 @@ purpose: for high score button to switch to high score page
     if not read highscore.txt file in the raw folder in resourses
      */
     public void loadScoresRaw() {
-        File file = new File("highscore.txt");
+        File file = new File(getFilesDir() + "highscore.txt");
         // If text file exists then do nothing
         if (file.exists()) {
 
@@ -163,6 +165,7 @@ purpose: for high score button to switch to high score page
                 OutputStreamWriter os = new OutputStreamWriter(fileOut);
                 os.write(builder.toString());
                 os.close();
+                Log.d(TAG, "loadScoresRaw: " + "New Created file, DID NOT EXIST BEFORE");
                 System.out.println("New Created file, DID NOT EXIST BEFORE\n");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
