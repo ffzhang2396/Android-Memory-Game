@@ -12,6 +12,7 @@ public class State implements Parcelable {
     private String cardID;
     private boolean isFlipped;
     private boolean isMatched;
+    private int drawable;
 
     public String getCardID() {
         return cardID;
@@ -50,7 +51,7 @@ public class State implements Parcelable {
         cardID = in.readString();
         isFlipped = in.readByte() != 0;
         isMatched = in.readByte() != 0;
-
+        drawable = in.readInt();
     }
 
     public boolean equals(State state) {
@@ -67,6 +68,7 @@ public class State implements Parcelable {
         dest.writeString(cardID);
         dest.writeByte((byte) (isFlipped ? 1 : 0));
         dest.writeByte((byte) (isMatched ? 1 : 0));
+        dest.writeInt(drawable);
     }
 
     @Override
@@ -85,4 +87,12 @@ public class State implements Parcelable {
             return new State[size];
         }
     };
+
+    public int getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(int drawable) {
+        this.drawable = drawable;
+    }
 }
