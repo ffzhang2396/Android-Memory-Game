@@ -124,7 +124,8 @@
         android:textColor="@color/light_font"
         app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/score" />
+        tools:text="@string/score"
+        android:layout_marginLeft="16dp" />
 
     <ToggleButton
         android:id="@+id/gameToggleButton"
