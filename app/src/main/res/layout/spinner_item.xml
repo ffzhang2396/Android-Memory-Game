@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/text_shadow"
+    android:gravity="left"
+    android:padding="5dip"
+    android:shadowColor="@color/text_shadow"
+    android:shadowDx="1"
+    android:shadowDy="1"
+    android:shadowRadius="2"
+    android:textColor="@color/light_font"
+    android:textSize="20sp"
+
+    />

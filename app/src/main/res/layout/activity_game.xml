@@ -6,6 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/background2"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
+
     <GridView
         android:id="@+id/gridView"
         android:layout_width="267dp"
@@ -105,8 +115,13 @@
         android:id="@+id/textViewScore"
         android:layout_width="104dp"
         android:layout_height="27dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
         android:text="Score: 0"
+        android:textColor="@color/light_font"
         app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/score" />
@@ -120,6 +135,7 @@
         android:textOff="@string/off"
         android:textOn="@string/on"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="28dp" />
 
 </android.support.constraint.ConstraintLayout>

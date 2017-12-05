@@ -4,7 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_shadow"
     tools:context="com.cs245.cardguesser.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/background1"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -22,22 +33,30 @@
             android:layout_height="wrap_content"
             android:text="@string/Title"
             android:textAlignment="center"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:textColor="@color/light_font"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            />
     </FrameLayout>
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="207dp"
-        android:layout_height="36dp"
+        android:layout_width="211dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:entries="@array/num_cards"
         android:prompt="@string/dropDown_prompt"
+        android:popupBackground="@color/text_shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.307"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.34" />
+        app:layout_constraintVertical_bias="0.34"
+        android:layout_marginLeft="8dp" />
 
 
     <Button

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
@@ -61,7 +62,7 @@ purpose: for high score button to switch to high score page
     }
 
     public void addListenerButton() {
-        choices = findViewById(R.id.spinner);
+        initSpinner();
         playButton = findViewById(R.id.button);
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +174,12 @@ purpose: for high score button to switch to high score page
                 e.printStackTrace();
             }
         }
+    }
+
+    private void initSpinner() {
+        choices = findViewById(R.id.spinner);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.num_cards, R.layout.spinner_item);
+        choices.setAdapter(adapter);
     }
 
 

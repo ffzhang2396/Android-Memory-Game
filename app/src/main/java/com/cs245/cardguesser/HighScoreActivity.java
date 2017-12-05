@@ -55,10 +55,10 @@ public class HighScoreActivity extends AppCompatActivity {
     by calling loadScores and passing the type of highscore seleceted
      */
     public void highScoreType() {
-        number = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(HighScoreActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.num_cards));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        number.setAdapter(adapter);
+//        number.setAdapter(adapter);
+        initSpinner();
         number.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -146,5 +146,11 @@ public class HighScoreActivity extends AppCompatActivity {
         // Displays the scores to highscore window
         TextView txtDisplay = findViewById(R.id.scores);
         txtDisplay.setText(builder.toString());
+    }
+
+    private void initSpinner() {
+        number = findViewById(R.id.spinner);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.num_cards, R.layout.spinner_item);
+        number.setAdapter(adapter);
     }
 }
