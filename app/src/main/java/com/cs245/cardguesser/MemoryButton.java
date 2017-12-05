@@ -1,3 +1,16 @@
+/** *************************************************************
+ * file: MemoryButton.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
 package com.cs245.cardguesser;
 
 import android.annotation.SuppressLint;
@@ -24,13 +37,19 @@ public class MemoryButton extends Button {
         this.context = context;
     }
 
-
+    /*
+    method: flip
+    purpose: flips card depending on the state
+     */
     public void flip() {
         state.setFlipped(!state.isFlipped());
         setBack();
 
     }
-
+    /*
+    method: setBack
+    purpose: sets the view of the card
+     */
     public void setBack() {
         if (!state.isFlipped()) {
             setBackgroundResource(R.drawable.starwars);
@@ -44,13 +63,20 @@ public class MemoryButton extends Button {
         setEnabled(!state.isMatched());
     }
 
-
+    /*
+    method: setMatched
+    purpose: disables button if the card is matched
+     */
     public void setMatched() {
         state.setMatched(true);
         setEnabled(false);
 
     }
 
+    /*
+    method: setEnabled
+    purpose: if card is a match, disable button and grayscale the image
+     */
     @Override
     public void setEnabled(boolean isEnabled) {
         super.setEnabled(isEnabled);
@@ -60,7 +86,10 @@ public class MemoryButton extends Button {
             setBackground(icon);
         }
     }
-
+    /*
+    method: convertDrawableToGrayScale
+    purpose: grayscales image
+     */
     private Drawable convertDrawableToGrayScale(Drawable icon) {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);

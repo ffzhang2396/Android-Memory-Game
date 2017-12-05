@@ -1,3 +1,17 @@
+/** *************************************************************
+ * file: MusicService.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
+
 package com.cs245.cardguesser;
 
 import android.app.Service;
@@ -7,10 +21,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-/**
- * Created by Brandon on 11/19/2017.
- */
 
 public class MusicService extends Service{
     private MediaPlayer mp;
@@ -31,6 +41,10 @@ public class MusicService extends Service{
 
     }
 
+    /*
+    method: onStartCommand
+    purpose: handles music playback
+     */
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
@@ -83,7 +97,10 @@ public class MusicService extends Service{
     }
 
 
-
+    /*
+    method: onDestroy
+    purpose: stop music playback if app is destroyed
+     */
     @Override
     public void onDestroy()
     {

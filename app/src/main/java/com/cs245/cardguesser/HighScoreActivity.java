@@ -1,3 +1,17 @@
+/** *************************************************************
+ * file: HighScoreActivity.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
+
 package com.cs245.cardguesser;
 
 import android.content.Intent;
@@ -26,6 +40,11 @@ public class HighScoreActivity extends AppCompatActivity {
     private Spinner number;
     private Button backButton;
     private boolean isToggled;
+
+    /*
+    method: onCreate
+    purpose: sets up activity
+    */
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,8 +178,9 @@ public class HighScoreActivity extends AppCompatActivity {
 
 
     /*
-Method override in order to facilitate the back button pressed in order to make sure
-the music is changing.
+    method: onBackPressed
+    purpose: Method override in order to facilitate the back button pressed in order to make sure
+    the music is changing.
  */
     public void onBackPressed() {
         super.onBackPressed();
@@ -170,7 +190,8 @@ the music is changing.
     }
 
     /*
-    function override to make sure the music stops playing when the appe enters the background.
+    method: onPause
+    purpose: function override to make sure the music stops playing when the appe enters the background.
      */
     public void onPause() {
         super.onPause();
@@ -182,7 +203,8 @@ the music is changing.
     }
 
     /*
-    Function override to make sure the music starts playing again when the app enters the foreground.
+    method: onResume
+    purpose: Function override to make sure the music starts playing again when the app enters the foreground.
      */
     public void onResume() {
         super.onResume();

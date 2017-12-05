@@ -1,3 +1,17 @@
+/** *************************************************************
+ * file: ButtonAdapter.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
+
 package com.cs245.cardguesser;
 
 import android.annotation.SuppressLint;
@@ -11,8 +25,8 @@ import android.widget.GridView;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Brandon on 11/21/2017.
+ /*
+    Used to display MemoryButtons in GridView
  */
 
 public class ButtonAdapter extends BaseAdapter {
@@ -32,6 +46,10 @@ public class ButtonAdapter extends BaseAdapter {
         initCardBacks();
     }
 
+    /*
+    method: initCardBacks
+    purpose: sets up HashMap to assign cardType to correct picture
+    */
     private void initCardBacks(){
         cardBacks = new HashMap<>();
         cardBacks.put("Vader", R.drawable.vader);
@@ -60,6 +78,11 @@ public class ButtonAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
+
+    /*
+    method: getView
+    purpose: sets up MemoryButton to be used by gridview
+    */
 
     @SuppressLint("RestrictedApi")
     public View getView(int i, View view, final ViewGroup parent) {

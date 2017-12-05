@@ -1,3 +1,16 @@
+/** *************************************************************
+ * file: MainActivity.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
 package com.cs245.cardguesser;
 
 import android.content.Intent;
@@ -32,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private Button hSButton;
     private boolean isToggled;
 
+    /*
+    method: onCreate
+    purpose: setup activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +84,10 @@ purpose: for high score button to switch to high score page
             }
         });
     }
-
+    /*
+    method: switchToHighScore
+    purpose: for high score button to switch to high score page
+     */
     public void addListenerButton() {
         initSpinner();
         playButton = findViewById(R.id.button);
@@ -92,7 +112,10 @@ purpose: for high score button to switch to high score page
         }
     });
     }
-
+    /*
+    method: toggleMusic
+    purpose: toggle music button
+     */
     public void toggleMusic() {
         ToggleButton music = findViewById(R.id.music);
         music.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -114,6 +137,10 @@ purpose: for high score button to switch to high score page
         });
     }
 
+    /*
+    method: addMusic
+    purpose: plays music
+     */
     public void addMusic(){
         //music plays throughout activities
         Intent music = new Intent(MainActivity.this, MusicService.class);
@@ -182,6 +209,11 @@ purpose: for high score button to switch to high score page
             }
         }
     }
+
+    /*
+    method: initSpinner
+    purpose: changes color of spinner
+     */
 
     private void initSpinner() {
         choices = findViewById(R.id.spinner);

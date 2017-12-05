@@ -1,12 +1,23 @@
+/** *************************************************************
+ * file: State.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
 package com.cs245.cardguesser;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Brandon-PC on 11/30/2017.
- */
+
 
 public class State implements Parcelable {
     private String cardID;
@@ -46,6 +57,10 @@ public class State implements Parcelable {
         this.cardID = cardID;
     }
 
+    /*
+
+    purpose: handles Parcelable object creation
+     */
     @SuppressLint("RestrictedApi")
     protected State(Parcel in) {
         cardID = in.readString();
@@ -62,6 +77,10 @@ public class State implements Parcelable {
             return false;
         }
     }
+    /*
+    method: writeToParcel
+    purpose: handles parcel creation
+     */
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

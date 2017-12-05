@@ -1,3 +1,17 @@
+/** *************************************************************
+ * file: GameActivity.java
+ * author: Brandon Nguyen, Charly Dang, Colin Koo, Felix Zhang, Gerianna Geminiano
+ * class: CS 245 – Programming Graphical User Interface
+ *
+ * assignment: Android App
+ * date last modified: 12/5/17
+ *
+ * This App is a concentration game. The user is able to select cards to be flipped
+ * and also toggle the playback of music. The top 3 high scores from each type of
+ * board are also saved
+ *
+ *************************************************************** */
+
 package com.cs245.cardguesser;
 
 import android.content.DialogInterface;
@@ -43,7 +57,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private int numberOfElements;
     private int score;
     private int numberOfMatches;
-    private String [][] hScores = new String[2][5];
+    private String [][] hScores;
     private State[] states;
     private String[] usedCards;
     private String name;
@@ -70,6 +84,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private final String TAG = "GameActivity";
 
+
+    /*
+    method: onCreate
+    purpose: sets up instance variables
+    */
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -112,10 +131,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView.setOnItemClickListener(this);
         textView.setText("Score: " + score);
         toggleMusic();
+        hScores = new String[2][5];
     }
 
     /*
-    Button listener for the toggle button to play music or not.
+    Method: toggleMusic
+    purpose: Button listener for the toggle button to play music or not.
      */
     public void toggleMusic() {
         music = findViewById(R.id.gameToggleButton);
@@ -152,7 +173,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-
+    /*
+    method: initButtons
+    purpose: sets up how many buttons to populate on the screen
+    */
     private void initButtons() {
         states = new State[numberOfElements];
         populateUsedCards();
@@ -367,7 +391,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return nameScore;
     }
 
-
+    /*
+    method: setTryAgainButtonClickListenter
+    purpose: flips cards over when try again is pressed
+    */
     private void setTryAgainButtonClickListenter() {
         tryAgainButton = findViewById(R.id.tryAgain);
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +411,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
     }
-
+    /*
+    method: setEndGameButtonClickListenter
+    purpose: flips all cards over if pressed
+    */
     private void setEndGameButtonClickListenter() {
         endGameButton = findViewById(R.id.endGame);
         endGameButton.setOnClickListener(new View.OnClickListener() {
@@ -401,7 +431,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
     }
-
+    /*
+    method: onItemClick
+    purpose: handles user clicking on buttons
+    */
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MemoryButton button = (MemoryButton) view;
 //        Log.d("GameActivity", "onItemClick: " + i + " button id: " + button.getId() + " button: " + button.getCardID());
@@ -438,6 +471,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
     // activity_game land and reg have all ids camel case except newgame?
     // implement using ButtonAdapter?
+
+    /*
+    method: setNewGameButtonClickListenter
+    purpose: starts a new game withe same number of cards
+    */
     private void setNewGameButtonClickListenter(){
         newGameButton = findViewById(R.id.NewGame);
         newGameButton.setOnClickListener(new View.OnClickListener(){
@@ -449,6 +487,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         );
     }
+
+    /*
+    method: setBackButtonClickListener
+    purpose: goes back to main activity
+    */
     private void setBackButtonClickListener(){
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener(){
@@ -462,6 +505,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // example for dialog box with field for text input, yes button, cancel button
+    /*
+    method: getName
+    purpose: opens a dialog box for the user to enter their name
+    */
     private void getName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String strScore;
@@ -528,7 +575,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
-
+    /*
+    method: onSaveInstanceState
+    purpose: saves instance variables
+    */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -546,7 +596,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 /*
-Method override in order to facilitate the back button pressed in order to make sure
+method: onBackPressed
+purpose: Method override in order to facilitate the back button pressed in order to make sure
 the music is changing.
  */
     public void onBackPressed() {
@@ -557,7 +608,8 @@ the music is changing.
     }
 
     /*
-    function override to make sure the music stops playing when the appe enters the background.
+    method onPause
+    purpose: function override to make sure the music stops playing when the appe enters the background.
      */
     public void onPause() {
         super.onPause();
@@ -572,7 +624,8 @@ the music is changing.
     }
 
     /*
-    Function override to make sure the music starts playing again when the app enters the foreground.
+    Method: onResume
+    purpose: Function override to make sure the music starts playing again when the app enters the foreground.
      */
     public void onResume() {
         super.onResume();
