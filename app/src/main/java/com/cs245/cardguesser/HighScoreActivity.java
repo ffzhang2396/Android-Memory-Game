@@ -25,10 +25,13 @@ public class HighScoreActivity extends AppCompatActivity {
 
     private Spinner number;
     private Button backButton;
+    private boolean isToggled;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
+
+        isToggled = getIntent().getBooleanExtra("isToggled", false);
 
         highScoreType();
         backToMain();
@@ -43,8 +46,8 @@ public class HighScoreActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent bIntent = new Intent(HighScoreActivity.this, MainActivity.class);
-                startActivity(bIntent);
+                finish();
+                onBackPressed();
             }
         });
     }
@@ -153,4 +156,44 @@ public class HighScoreActivity extends AppCompatActivity {
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.num_cards, R.layout.spinner_item);
         number.setAdapter(adapter);
     }
+
+
+    /*
+Method override in order to facilitate the back button pressed in order to make sure
+the music is changing.
+ */
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent destroy = new Intent(HighScoreActivity.this, MusicService.class);
+        destroy.putExtra("song", "main");
+        startService(destroy);
+    }
+
+    /*
+    function override to make sure the music stops playing when the appe enters the background.
+     */
+    public void onPause() {
+        super.onPause();
+
+        Intent pause = new Intent(HighScoreActivity.this, MusicService.class);
+        pause.putExtra("song", "pause");
+        startService(pause);
+
+    }
+
+    /*
+    Function override to make sure the music starts playing again when the app enters the foreground.
+     */
+    public void onResume() {
+        super.onResume();
+
+        if (!isToggled) {
+            Intent resume = new Intent(HighScoreActivity.this, MusicService.class);
+            resume.putExtra("song", "resume");
+            startService(resume);
+        }
+
+
+    }
+
 }

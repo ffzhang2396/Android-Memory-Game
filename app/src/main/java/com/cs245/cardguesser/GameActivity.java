@@ -447,9 +447,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         backButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(GameActivity.this, MainActivity.class);
                     finish();
-                    startActivity(i);
+                    onBackPressed();
                 }
             }
         );

@@ -54,8 +54,15 @@ purpose: for high score button to switch to high score page
             @Override
             public void onClick(View view) {
                 Intent hSIntent = new Intent(MainActivity.this, HighScoreActivity.class);
-                startActivity(hSIntent);
+                hSIntent.putExtra("isToggled", isToggled);
 
+                if (!isToggled) {
+                    Intent musicSwitch = new Intent(MainActivity.this, MusicService.class);
+                    musicSwitch.putExtra("song", "hScore");
+                    startService(musicSwitch);
+                }
+
+                startActivity(hSIntent);
 
             }
         });

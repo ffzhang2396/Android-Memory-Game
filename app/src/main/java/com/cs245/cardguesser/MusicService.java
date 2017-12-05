@@ -62,6 +62,12 @@ public class MusicService extends Service{
                 mp.setLooping(true);
                 mp.start();
                 break;
+            case "hScore":
+                mp.stop();
+                mp = MediaPlayer.create(this, R.raw.rebelfleet);
+                mp.setLooping(true);
+                mp.start();
+                break;
             default:
                 mp.start();
                 break;
