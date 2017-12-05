@@ -51,7 +51,7 @@
         android:prompt="@string/dropDown_prompt"
         android:textSize="20sp"
         android:textColor="#FF0000"
-        android:backgroundTint="@color/text_shadow"
+        android:backgroundTint="@color/light_font"
         android:popupBackground="@color/text_shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
