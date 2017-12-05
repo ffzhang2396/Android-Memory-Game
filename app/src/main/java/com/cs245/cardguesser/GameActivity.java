@@ -211,8 +211,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 i++;
                 inserted = true;
             }
-            tempArr[0][i] = hScores[0][x];
-            tempArr[1][i] = hScores[1][x];
+            if (i < 3) {
+                tempArr[0][i] = hScores[0][x];
+                tempArr[1][i] = hScores[1][x];
+            }
         }
 
         // Copy temp array to highscores array
