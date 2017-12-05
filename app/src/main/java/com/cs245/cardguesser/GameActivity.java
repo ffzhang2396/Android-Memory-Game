@@ -61,6 +61,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button tryAgainButton, newGameButton, backButton, endGameButton;
 
     private boolean isDialog;
+    private boolean isHighScore;
     private boolean isToggled;
     private ToggleButton music;
     private boolean state;
@@ -186,13 +187,16 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         // If score is greater than lowest highscore add it to new highscore
         if(score > Integer.valueOf(hScores[1][2])){
             isDialog = true;
-            // Display dialog box asking for name
-            getName();
+            isHighScore = true;
         }
         // Display dialog box showing score and "sorry"
         else{
-            notHighScore();
+            isHighScore = false;
         }
+
+        // Display dialog box asking for name
+        getName();
+
     }
 
     /*
@@ -457,7 +461,19 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     // example for dialog box with field for text input, yes button, cancel button
     private void getName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Please enter your name");
+        String strScore;
+        String msg;
+        if (isHighScore){
+            strScore = "Congrats you got a highscore." + "  Score: " + Integer.toString(score) + "\n";
+            msg = "Please enter your name.";
+        }else{
+            strScore = "Sorry you didn't get a highscore." + "  Score: " + Integer.toString(score) + "\n";
+            msg = "Please enter your name anyway.";
+        }
+        builder.setTitle(strScore);
+        builder.setMessage(msg);
+
+
 
         // Set up the input
         final EditText input = new EditText(this);
