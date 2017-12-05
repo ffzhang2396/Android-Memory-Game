@@ -103,7 +103,8 @@
         android:textColor="@color/light_font"
         app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/score" />
+        tools:text="@string/score"
+        android:layout_marginLeft="16dp" />
 
     <ToggleButton
         android:id="@+id/gameToggleButton"
@@ -111,10 +112,12 @@
         android:layout_height="36dp"
         android:layout_marginBottom="320dp"
         android:layout_marginEnd="104dp"
+        android:visibility="gone"
         android:textOff="@string/off"
         android:textOn="@string/on"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="104dp" />
 
     <Button
         android:id="@+id/backButton"
