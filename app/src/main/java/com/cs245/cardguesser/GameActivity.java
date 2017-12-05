@@ -470,10 +470,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
-                Log.d(TAG, "Name :" + name);
-                // Gets the name and adds it to the highscore list with the score
-                updateHSList(name,score);
-                isDialog = false;
+                    if(name.equals("")){
+                        getName();
+                    } else {
+                        Log.d(TAG, "Name :" + name);
+                        // Gets the name and adds it to the highscore list with the score
+                        updateHSList(name, score);
+                        isDialog = false;
+                    }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
