@@ -66,6 +66,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     private ToggleButton music;
     private boolean state;
 
+    private AlertDialog alertDialog;
+
     private final String TAG = "GameActivity";
 
 
@@ -98,7 +100,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             isDialog = savedInstanceState.getBoolean("dialog");
             if (isDialog) {
-                getName();
+                highScoreStuff();
             }
 
         }
@@ -186,12 +188,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // If score is greater than lowest highscore add it to new highscore
         if(score > Integer.valueOf(hScores[1][2])){
-            isDialog = true;
             isHighScore = true;
+            isDialog = true;
         }
         // Display dialog box showing score and "sorry"
         else{
             isHighScore = false;
+            isDialog = true;
         }
 
         // Display dialog box asking for name
@@ -500,8 +503,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 isDialog = false;
             }
         });
-
-        builder.show();
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     /*
@@ -564,6 +567,9 @@ the music is changing.
         pause.putExtra("song", "pause");
         startService(pause);
 
+        if(alertDialog != null && alertDialog.isShowing()) {
+            alertDialog.dismiss();
+        }
     }
 
     /*
